@@ -1,10 +1,17 @@
-<!doctype html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <title>Wild Series</title>
-</head>
-<body>
-   <h1>Bienvenue !</h1>
-</body>
-</html>
+{% extends 'base.html.twig' %}
+
+{% block title %}Wild Series
+{% endblock %}
+
+{% block body %}
+	<img id="bg-image" src="{{ asset('build/images/house_of_dragon.jpg') }}" alt="House of dragon"/>
+
+	<div class="container">
+		<div class="row">
+        	<div class="col-10 text-center align-content-center">
+				<h1 class="text-light">Bienvenue Sur Wild Series!</h1>
+				<h2 class="text-light">Retrouvez vos séries préférées, ajoutez les à vos favoris, revivez les meilleurs instants...</h2>
+			</div>
+		</div>
+	</div>
+{% endblock %}
