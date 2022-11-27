@@ -3,6 +3,12 @@ $primary: darken(#428bca, 20%);
 
 @import "~bootstrap/scss/bootstrap";
 
-body {
-    background-color: $primary;
+:root{
+    --bg-image-width:100vw;
+    
+    --width-logo-navbar : 40px;
 }
+
+
+
+
