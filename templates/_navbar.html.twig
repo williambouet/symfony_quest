@@ -14,16 +14,11 @@
 						Catégories
 					</a>
 					<ul class="dropdown-menu dropdown-menu-dark">
+						{% for category in constant('App\\DataFixtures\\CategoryFixtures::CATEGORIES') %}
 						<li>
-							<a class="dropdown-item" href="#">Catégorie 1</a>
+							<a class="dropdown-item" href="#">{{ category }}</a>
 						</li>
-						<li>
-							<a class="dropdown-item" href="#">Another action</a>
-						</li>
-						<li><hr class="dropdown-divider"></li>
-						<li>
-							<a class="dropdown-item" href="#">Something else here</a>
-						</li>
+						{% endfor %}
 					</ul>
 				</li>
 
