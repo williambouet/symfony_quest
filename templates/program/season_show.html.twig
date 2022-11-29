@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Série #{{ season.id }}{% endblock %}
+
+{% block body %}
+    <div class="media">
+        <img class="align-self-start mr-3" src="{{}}" alt="{{ season.number }} poster">
+        <div class="media-body">
+            <h1 class="mt-0">{{ season.number }}</h1>
+            <p>{{ season.synopsis }}</p>
+            <p>Catégorie : {{  }}</p>
+        </div>
+    </div>
+
+    <a href="{{ path('season_list') }}">
+        Retour à la liste des programmes
+    </a>
+{% endblock %}
