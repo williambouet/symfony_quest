@@ -1,12 +1,20 @@
 // customize some Bootstrap variables
-$primary: darken(#428bca, 20%);
+$primary: #212529;
 
 @import "~bootstrap/scss/bootstrap";
 
 :root{
-    --bg-image-width:100vw;
     
     --width-logo-navbar : 40px;
+
+}
+body {
+    background-color: #212529;
+    padding-inline: 1rem;
+}
+
+.bg-dark {
+    background-color: $primary;
 }
 
 

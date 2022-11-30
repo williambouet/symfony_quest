@@ -13,23 +13,23 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-/*         $faker = Factory::create();
+        $faker = Factory::create();
         $j = 1;
         foreach (CategoryFixtures::CATEGORIES as $categoryName) {
             
             for ($i = 1; $i <= 10; $i++) {
                 $program = new Program();
-                $program->setTitle($faker->sentence());
-                $program->setPoster($faker->sentence());
+                $program->setTitle($faker->sentence(3, true));
+                $program->setPoster($categoryName . '.jpg');
                 $program->setSynopsis($faker->sentence(20, true));
                 $program->setCategory($this->getReference('category_' . $categoryName));
-
+                $this->addReference('program_' . $j, $program);
+                
                 $manager->persist($program);
+                $j++;
             }
-            $this->addReference('program_' . $j, $program);
-            $j++;
         }
-        $manager->flush(); */
+        $manager->flush();
     }
 
     public function getDependencies()
