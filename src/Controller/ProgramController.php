@@ -13,14 +13,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
 {
-    #[Route('/list', name: 'list')]
-    public function list(ProgramRepository $programRepository): Response
+    #[Route('/', name: 'index')]
+    public function index(ProgramRepository $programRepository): Response
     {
         $programs = $programRepository->findAll();
 
-        return $this->render('program/list.html.twig', [
+        return $this->render('program/index.html.twig', [
             'programs' => $programs,
         ]);
+    }
+
+    #[Route('/list/{categoryId}', requirements: ['categoryId' => '^[0-9]+$'], methods: ['GET'], name: 'list')]
+    public function list(int $categoryId, ProgramRepository $programRepository): Response
+    {
+        $programs = $programRepository->findBy(['category' => $categoryId]);
+
+        if (!$programs)
+            throw $this->createNotFoundException('Aucune série trouvée');
+
+        return $this->render('program/list.html.twig', ['programs' => $programs]);
     }
 
 
@@ -35,7 +46,7 @@ class ProgramController extends AbstractController
         return $this->render('program/show.html.twig', ['program' => $program]);
     }
 
-    #[Route('/program/{programId}/seasons/{seasonId}', requirements: ['seasonId' => '^[0-9]+$', 'programId' => '^[0-9]+$',], methods: ['GET'], name: 'show')]
+    #[Route('/program/{programId}/seasons/{seasonId}', requirements: ['seasonId' => '^[0-9]+$', 'programId' => '^[0-9]+$',], methods: ['GET'], name: 'season_show')]
     public function showSeason(int $programId, int $seasonId, ProgramRepository $programRepository, SeasonRepository $seasonRepository): Response
     {
         $program = $programRepository->findOneBy(['id' => $programId]);
@@ -49,6 +60,6 @@ class ProgramController extends AbstractController
             throw $this->createNotFoundException('Aucune season trouvée');
 
 
-        return $this->render('program/show.html.twig', ['program' => $program, 'season' => $season]);
+        return $this->render('program/season_show.html.twig', ['program' => $program, 'season' => $season]);
     }
 }

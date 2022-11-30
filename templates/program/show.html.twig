@@ -1,20 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Série #{{ program.id }}{% endblock %}
+{% block title %}Série #{{ program.id }}
+{% endblock %}
 
 {% block body %}
-    <div class="media">
-        <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
-        <div class="media-body">
-            <h1 class="mt-0">{{ program.title }}</h1>
-            <p>{{ program.synopsis }}</p>
-            <p>Catégorie : {{ program.category.name }}</p>
-            <p>Saison : {{ program.saison.synopsis }}</p>
-            
-        </div>
-    </div>
 
-    <a href="{{ path('program_list') }}">
-        Retour à la liste des programmes
-    </a>
+	<div class="contenair">
+		<div class="row ">
+			<div class="col-10 d-flex gap-3">
+				<h1>Toutes les catégories</h1>
+				{% if program is not empty %}
+					<div class="card my-3 ">
+						<img src="{{ asset('build/images/' ~ program.poster) }}" class="card-img-top" alt="Une image du programme {{ program.poster }}">
+						<div class="card-body">
+							<h2 class="card-title">{{ program.title }}</h2>
+							<div>
+								<p>Synopsis de la saison :</p>
+								<p>{{ program.synopsis }}</p>
+							</div>
+							<div>
+								<p>Catégorie :
+									{{ program.category.name }}</p>
+                                <p>Nombre de saison :
+									4</p>
+							</div>
+
+							<div class="d-flex justify-content-between">
+								<a href="{{ path("program_list", { categoryId: program.category.id }) }}" class="btn btn-dark">Voir les épisodes</a>
+								<a href="{{ path('App_index') }}" class="btn btn-outline-secondary">Retour à l'accueil</a>
+							</div>
+						</div>
+					</div>
+
+				{% else %}
+					Aucune catégorie trouvée.
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+
 {% endblock %}

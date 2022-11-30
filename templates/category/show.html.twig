@@ -1,20 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Some programs{% endblock %}
+{% block title %}Some programs
+{% endblock %}
 
 {% block body %}
-    <h1>Toutes les séries de la table program : </h1>
-    {% for program in programs %}
-        <div>
-            <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
-            <p>{{ program.synopsis }}</p>
-            <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
-        </div>
-    {% else %}
-        Aucune série trouvée.
-    {% endfor %}
+	<div class="contenair">
+		<div class="row ">
+			<h1 class="text-light">Tous les programmes de la catégorie :
+				{{ category.name }}
+			</h1>
+			{% for program in programs %}
+				<div class="col-12 col-lg-3 d-flex gap-3">
+					<div class="card my-3 h-100">
+						<img src="{{ asset('build/images/' ~ category.name ~ '.jpg') }}" class="card-img-top" alt="Une image de la catégorie {{ category.name }}">
+						<div class="card-body">
 
-    <a href="{{ path('App_index') }}">
-        Retour à l'accueil
-    </a>
+							<div class="h-100 d-flex flex-column justify-content-between">
+								<div>
+									<p class="card-title text-secondary">Catégorie :
+										{{ program.category.name }}</p>
+									<h2>{{ loop.index ~ ' ' ~ program.title }}</h2>
+									<p>{{ program.synopsis }}</p>
+								</div>
+								<div class="d-flex justify-content-between">
+									<a href="{{ path("program_show", { id: program.id }) }}" class="btn btn-dark">Voir la fiche</a>
+									<a href="{{ path('App_index') }}" class="btn btn-outline-secondary">Retour à l'accueil</a>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			{% else %}
+				Aucune catégorie trouvée.
+			{% endfor %}
+
+		</div>
+	</div>
 {% endblock %}

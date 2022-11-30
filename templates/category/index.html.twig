@@ -1,19 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}All programs{% endblock %}
+{% block title %}Toute les catégories
+{% endblock %}
 
 {% block body %}
-    <h1>Toutes les séries de la table program : </h1>
-    {% for category in categories %}
-        <div>
-            <h2> Catégorie : {{category.name }}</h2>
-            <a href="{{ path("category_show", { categoryName: category.name }) }}">Voir la liste de cette categorie</a>
-        </div>
-    {% else %}
-        Aucune catégorie trouvée.
-    {% endfor %}
 
-    <a href="{{ path('App_index') }}">
-        Retour à l'accueil
-    </a>
+	<div class="contenair">
+		<div class="row justify-content-center">
+			<div class="col-6">
+				<h1>Toutes les catégories</h1>
+				{% for category in categories %}
+					<div class="card my-3">
+						<img src="{{ asset('build/images/' ~ category.name ~ '.jpg') }}" class="card-img-top" alt="Une image de la catégorie {{ category.name }}">
+						<div class="card-body">
+							<h1 class="card-title text-center">{{ category.name }}</h1>
+							<div class="d-flex justify-content-between">
+								<a href="{{ path("category_show", { categoryName: category.name }) }}" class="btn btn-dark">Voir la liste de cette categorie</a>
+								<a href="{{ path('App_index') }}" class="btn btn-outline-secondary">Retour à l'accueil</a>
+							</div>
+						</div>
+					</div>
+
+				{% else %}
+					Aucune catégorie trouvée.
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
 {% endblock %}
