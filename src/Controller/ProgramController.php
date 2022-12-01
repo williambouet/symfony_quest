@@ -4,9 +4,11 @@ namespace App\Controller;
 
 
 use App\Entity\Program;
+use App\Form\ProgramType;
 use App\Repository\SeasonRepository;
 use App\Repository\ProgramRepository;
 use App\Repository\CategoryRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,6 +28,30 @@ class ProgramController extends AbstractController
         ]);
     }
 
+    #[Route('/new', name: 'new')]
+    public function new(Request $request, ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
+    {
+        $program = new Program();
+        // Create the form, linked with $category
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted()) {
+            $programRepository->save($program, true);
+
+            $categories = $categoryRepository->findAll();
+            return $this->redirectToRoute('program_index', ['categories' => $categories,]);
+        }
+
+        $categories = $categoryRepository->findAll();
+        // Render the form (best practice)
+        return $this->renderForm('program/new.html.twig', [
+            'form' => $form,
+            'categories' => $categories,
+        ]);
+    }
+
+
     #[Route('/list/{categoryId}', requirements: ['categoryId' => '^[0-9]+$'], methods: ['GET'], name: 'list')]
     public function list(int $categoryId, ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
     {
@@ -34,7 +60,7 @@ class ProgramController extends AbstractController
         if (!$programs)
             throw $this->createNotFoundException('Aucune série trouvée');
 
-            $categories = $categoryRepository->findAll();
+        $categories = $categoryRepository->findAll();
 
         return $this->render('program/list.html.twig', [
             'programs' => $programs,
@@ -49,7 +75,7 @@ class ProgramController extends AbstractController
         $seasons = $program->getSeasons();
         if (!$program)
             throw $this->createNotFoundException('Aucune série trouvée');
-            
+
         $categories = $categoryRepository->findAll();
 
         return $this->render('program/show.html.twig', ['program' => $program, 'seasons' => $seasons,  'categories' => $categories,]);
