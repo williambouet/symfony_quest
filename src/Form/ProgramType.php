@@ -22,16 +22,23 @@ class ProgramType extends AbstractType
                 'title', TextType::class, [
                     'label' => 'Titre',
                     'required' => true,
+                    'attr' => ['class' => 'tinymce form-control my-2',],
                 ])
             ->add('synopsis', TextareaType::class, [
                 'label' => 'Synopsis',
                 'required' => true,
-                'attr' => ['class' => 'tinymce'],
+                'attr' => ['class' => 'tinymce  form-control my-2'],
             ])
             ->add('poster', TextType::class, [
-                'label' => 'Synopsis',
-                'required' => true,])
-            ->add('category', null, ['choice_label' => 'name']);
+                'label' => 'Poster',
+                'required' => true,
+                'attr' => ['class' => 'tinymce  form-control my-2'],
+                ])
+            ->add('category', null, [
+                'choice_label' => 'name',
+                'attr' => ['class' => 'form-select  my-2'],
+            ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

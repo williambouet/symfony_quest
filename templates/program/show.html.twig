@@ -6,9 +6,9 @@
 {% block body %}
 
 	<div class="contenair">
-		<div class="row ">
-			<div class="col-10 d-flex gap-3">
-				<h1>Toutes les catégories</h1>
+		<div class="row  d-flex  gap-3 justify-content-center">
+			<div class="col-10 text-center">
+				<h1>La catégorie</h1>
 				{% if program is not empty %}
 					<div class="card my-3 ">
 						<img src="{{ asset('build/images/' ~ program.poster) }}" class="card-img-top" alt="Une image du programme {{ program.poster }}">
@@ -30,7 +30,7 @@
 							</div>
 
 							<div class="d-flex justify-content-between">
-								<a href="{{ path("program_list", { categoryId: program.category.id }) }}" class="btn btn-dark">Voir les épisodes</a>
+								<a href="{{ path("program_list", { categoryId: program.category.id }) }}" class="btn btn-outline-dark">Voir les épisodes</a>
 								<a href="{{ path("category_show", { categoryName: program.category.name }) }}" class="btn btn-outline-secondary">Retour</a>
 							</div>
 						</div>

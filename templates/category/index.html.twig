@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Toute les catégories
+{% block title %}Toutes les catégories
 {% endblock %}
 
 {% block body %}
@@ -13,9 +13,9 @@
 					<div class="card my-3">
 						<img src="{{ asset('build/images/' ~ category.name ~ '.jpg') }}" class="card-img-top" alt="Une image de la catégorie {{ category.name }}">
 						<div class="card-body">
-							<h1 class="card-title text-center">{{ category.name }}</h1>
+							<p class="card-title fs-1 text-center">{{ category.name }}</p>
 							<div class="d-flex justify-content-between">
-								<a href="{{ path("category_show", { categoryName: category.name }) }}" class="btn btn-dark">Voir la liste de cette categorie</a>
+								<a href="{{ path("category_show", { categoryName: category.name }) }}" class="btn btn-outline-dark">Voir la liste de cette categorie</a>
 								<a href="{{ path('App_index') }}" class="btn btn-outline-secondary">Retour à l'accueil</a>
 							</div>
 						</div>
