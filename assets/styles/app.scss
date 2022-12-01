@@ -3,14 +3,16 @@ $primary: #212529;
 
 @import "~bootstrap/scss/bootstrap";
 
-:root{
-    
-    --width-logo-navbar : 40px;
+:root {
+
+    --width-logo-navbar: 40px;
 
 }
+
 body {
     background-color: #212529;
     padding-inline: 1rem;
+
 }
 
 .bg-dark {
@@ -18,9 +20,9 @@ body {
 }
 
 .bg-image {
-    
+
     height: calc(100vh - 56px);
-    
+
 }
 
 .image_landing {
@@ -31,11 +33,15 @@ body {
 }
 
 #logo {
-    width:var(--width-logo-navbar);
+    width: var(--width-logo-navbar);
 }
 
-label {
-    color:$light;
-    
+label,
+td,
+th,
+h1,
+a {
+    color: $light;
+
 }
 

@@ -1,8 +1,10 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+	{{ include('_bs_form/_bs_top_form.html.twig')}}
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button type="submit">Add program</button>
+    <button class="btn btn-outline-dark my-3"type="submit">Ajouter</button>
     {{ form_end(form) }}
+    	{{ include('_bs_form/_bs_bottom_form.html.twig')}}
 {% endblock %}
