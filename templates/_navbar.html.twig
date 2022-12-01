@@ -19,9 +19,9 @@
 						</li>
 						<li><hr class="dropdown-divider"></li>
 
-						{% for category in constant('App\\DataFixtures\\CategoryFixtures::CATEGORIES') %}
+						{% for category in categories %}
 							<li>
-								<a class="dropdown-item" href="{{ path("category_show", { categoryName: category }) }}">{{ category }}</a>
+								<a class="dropdown-item" href="{{ path("category_show", { categoryName: category.name }) }}">{{ category.name }}</a>
 							</li>
 						{% endfor %}
 					</ul>

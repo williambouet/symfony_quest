@@ -17,7 +17,13 @@
 								<div class="d-flex justify-content-between">
                                         <p class="text-secondary">Catégorie :
                                             {{ program.category.name }}</p>
-									<p class="text-secondary" >Nombre de saison :4</p>
+									<div class="d-flex">
+									<p class="text-secondary" >Saison :
+									{% for season in program.seasons %}
+										{{season.number}}
+									{% endfor %}
+									</p>
+									</div>
 
 								</div>
 								<h2 class="card-title">{{ program.title }}</h2>
@@ -28,7 +34,7 @@
 								<div
 									class="d-flex justify-content-between">
 									{# 			<a href="{{ path("program_show", { id: program.id }) }}" class="btn btn-dark">Voir les épisodes</a> #}
-									<a href="{{ path('App_index') }}" class="btn btn-outline-secondary">Retour à l'accueil</a>
+									<a href="{{ path("program_show", { id: program.id }) }}"  class="btn btn-outline-secondary">Retour</a>
 								</div>
 							</div>
 						</div>
