@@ -25,11 +25,11 @@ class Season
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(targetEntity: Program::class, inversedBy: 'seasons')]
+    #[ORM\ManyToOne(inversedBy: 'seasons')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?program $program = null;
+    private ?Program $program = null;
 
-    #[ORM\OneToMany(mappedBy: 'season_id', targetEntity: Episode::class)]
+    #[ORM\OneToMany(mappedBy: 'season', targetEntity: Episode::class)]
     private Collection $episodes;
 
     public function __construct()
@@ -79,12 +79,12 @@ class Season
         return $this;
     }
 
-    public function getProgramId(): ?program
+    public function getProgram(): ?Program
     {
         return $this->program;
     }
 
-    public function setProgramId(?program $program): self
+    public function setProgram(?Program $program): self
     {
         $this->program = $program;
 
@@ -103,7 +103,7 @@ class Season
     {
         if (!$this->episodes->contains($episode)) {
             $this->episodes->add($episode);
-            $episode->setSeasonId($this);
+            $episode->setSeason($this);
         }
 
         return $this;
@@ -113,8 +113,8 @@ class Season
     {
         if ($this->episodes->removeElement($episode)) {
             // set the owning side to null (unless already changed)
-            if ($episode->getSeasonId() === $this) {
-                $episode->setSeasonId(null);
+            if ($episode->getSeason() === $this) {
+                $episode->setSeason(null);
             }
         }
 
