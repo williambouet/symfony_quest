@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Program;
 use App\Form\ProgramType;
 use App\Repository\SeasonRepository;
+use App\Repository\EpisodeRepository;
 use App\Repository\ProgramRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +36,7 @@ class ProgramController extends AbstractController
         // Create the form, linked with $category
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted()) {
             $programRepository->save($program, true);
 
@@ -60,7 +61,7 @@ class ProgramController extends AbstractController
         $programs = $programRepository->findBy(['category' => $categoryId]);
         if (!$programs)
             throw $this->createNotFoundException('Aucune série trouvée');
-        
+
         return $this->render('program/list.html.twig', [
             'programs' => $programs,
             'categories' => $categoryRepository->findAll(),
@@ -77,35 +78,37 @@ class ProgramController extends AbstractController
         if (!$program)
             throw $this->createNotFoundException('Aucune série trouvée');
 
-          return $this->render('program/show.html.twig', [
-            'program' => $program, 
-            'seasons' => $seasons,  
+        return $this->render('program/show.html.twig', [
+            'program' => $program,
+            'seasons' => $seasons,
             'categories' => $categoryRepository->findAll(),
         ]);
     }
 
 
 
-    
+
     #[Route('/program/{programId}/seasons/{seasonId}', requirements: ['seasonId' => '^[0-9]+$', 'programId' => '^[0-9]+$',], methods: ['GET'], name: 'season_show')]
     public function showSeason(
         int $programId,
         int $seasonId,
+        EpisodeRepository $episodeRepository,
+        CategoryRepository $categoryRepository,
         ProgramRepository $programRepository,
-        SeasonRepository $seasonRepository,
-        CategoryRepository $categoryRepository
     ): Response {
-        $program = $programRepository->findOneBy(['id' => $programId]);
-        if (!$program)
-            throw $this->createNotFoundException('Aucune série trouvée');
 
-        $season = $seasonRepository->findOneBy(['id' => $seasonId]);
+        $programs = $programRepository->findBy(['id' => $programId]);
+        
+        $episodes = $episodeRepository->findBy(['season' => $seasonId]);
+        
 
-        if (!$season)
+        if (!$episodes)
             throw $this->createNotFoundException('Aucune season trouvée');
 
-        $categories = $categoryRepository->findAll();
-
-        return $this->render('program/season_show.html.twig', ['program' => $program, 'season' => $season,  'categories' => $categories,]);
+        return $this->render('program/season_show.html.twig', [
+            'programs' => $programs,
+            'episodes' => $episodes,
+            'categories' => $categoryRepository->findAll(),
+        ]);
     }
 }

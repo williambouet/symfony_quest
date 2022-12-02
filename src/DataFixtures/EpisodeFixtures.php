@@ -11,7 +11,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class EpisodeFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const NUMBER_OF_EPISODE_PER_SEASON = 10;
+    public const NUMBER_OF_EPISODE_PER_SEASON = 8;
 
     public function load(ObjectManager $manager): void
     {

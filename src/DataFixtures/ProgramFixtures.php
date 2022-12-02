@@ -11,7 +11,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const NUMBER_OF_PROGRAM = 10;
+    public const NUMBER_OF_PROGRAM = 6;
 
     public function load(ObjectManager $manager): void
     {

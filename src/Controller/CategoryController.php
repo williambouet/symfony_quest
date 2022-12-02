@@ -51,7 +51,7 @@ class CategoryController extends AbstractController
     public function show(string $categoryName, ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
     {
         $category = $categoryRepository->findOneBy(['name' => $categoryName]);
-        $programs = $programRepository->findBy(['category' => $category], ['title' => 'ASC'], 5);
+        $programs = $programRepository->findBy(['category' => $category], ['title' => 'ASC']);
 
         if (!$programs)
             throw $this->createNotFoundException('Aucun programme pour la catégorie.');

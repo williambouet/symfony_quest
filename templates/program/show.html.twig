@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{# ok #}
 {% block title %}Série #{{ program.id }}
 {% endblock %}
 
@@ -8,31 +8,39 @@
 	<div class="contenair">
 		<div class="row  d-flex  gap-3 justify-content-center">
 			<div class="col-10 text-center">
-				<h1>La catégorie</h1>
+				<h1>Le programme</h1>
 				{% if program is not empty %}
 					<div class="card my-3 ">
 						<img src="{{ asset('build/images/' ~ program.poster) }}" class="card-img-top" alt="Une image du programme {{ program.poster }}">
 						<div class="card-body">
 							<div class="d-flex justify-content-between">
-								<p class="text-secondary" >Catégorie :
+								<p class="text-secondary">Catégorie :
 									{{ program.category.name }}</p>
-								<p class="text-secondary" >Saison :
+								<p class="text-secondary">Saison :
 									{% for season in program.seasons %}
-										{{season.number}}
+										<a href="{{ path("program_season_show", { seasonId: season.id, programId: program.id }) }}" class="text-secondary text-decoration-none">
+											{{season.number}}
+										</a>
 									{% endfor %}
-
 								</p>
 							</div>
 							<h2 class="card-title">{{ program.title }}</h2>
-							<div>
-								<p>Synopsis de la saison :</p>
-								<p>{{ program.synopsis }}</p>
+							<div class="text-start ">
+								{% for season in program.seasons %}
+
+									<div class="d-flex justify-content-between">
+										<a href="{{ path("program_season_show", { seasonId: season.id, programId: program.id }) }}" class="text-dark">
+										<p class="fs-5 m-0">Description de la saison :
+											{{season.number}}
+											</p>
+											</a>
+										<a href="{{ path("program_season_show", { seasonId: season.id, programId: program.id }) }}" class="btn btn-outline-dark btn-sm">Détail des épisodes</a>
+									</div>
+									<p class="border-bottom my-3 pb-3 fw-light lh-lg">{{ season.description }}</p>
+								{% endfor %}
 							</div>
 
-							<div class="d-flex justify-content-between">
-								<a href="{{ path("program_list", { categoryId: program.category.id }) }}" class="btn btn-outline-dark">Voir les épisodes</a>
-								<a href="{{ path("category_show", { categoryName: program.category.name }) }}" class="btn btn-outline-secondary">Retour</a>
-							</div>
+							<a href="{{ path("category_show", { categoryName: program.category.name }) }}" class="btn btn-outline-secondary">Retour</a>
 						</div>
 					</div>
 

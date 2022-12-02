@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class SeasonFixtures extends Fixture implements DependentFixtureInterface
 {
 
-    public const NUMBER_OF_SEASON_PER_PROGRAM = 5;
+    public const NUMBER_OF_SEASON_PER_PROGRAM = 7;
 
     public function load(ObjectManager $manager): void
     {
