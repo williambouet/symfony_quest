@@ -52,21 +52,22 @@ class ProgramController extends AbstractController
     }
 
 
+
+
     #[Route('/list/{categoryId}', requirements: ['categoryId' => '^[0-9]+$'], methods: ['GET'], name: 'list')]
     public function list(int $categoryId, ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
     {
         $programs = $programRepository->findBy(['category' => $categoryId]);
-
         if (!$programs)
             throw $this->createNotFoundException('Aucune série trouvée');
-
-        $categories = $categoryRepository->findAll();
-
+        
         return $this->render('program/list.html.twig', [
             'programs' => $programs,
-            'categories' => $categories,
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
+
+
 
 
     #[Route('/{id}', requirements: ['id' => '^[0-9]+$'], methods: ['GET'], name: 'show')]
@@ -76,11 +77,16 @@ class ProgramController extends AbstractController
         if (!$program)
             throw $this->createNotFoundException('Aucune série trouvée');
 
-        $categories = $categoryRepository->findAll();
-
-        return $this->render('program/show.html.twig', ['program' => $program, 'seasons' => $seasons,  'categories' => $categories,]);
+          return $this->render('program/show.html.twig', [
+            'program' => $program, 
+            'seasons' => $seasons,  
+            'categories' => $categoryRepository->findAll(),
+        ]);
     }
 
+
+
+    
     #[Route('/program/{programId}/seasons/{seasonId}', requirements: ['seasonId' => '^[0-9]+$', 'programId' => '^[0-9]+$',], methods: ['GET'], name: 'season_show')]
     public function showSeason(
         int $programId,

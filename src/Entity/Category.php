@@ -12,7 +12,7 @@ class Category
 {
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Program::class)]
-    private $programs;
+    private ?Collection $programs = null;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
