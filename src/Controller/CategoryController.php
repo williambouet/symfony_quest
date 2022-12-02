@@ -28,10 +28,10 @@ class CategoryController extends AbstractController
     public function new(Request $request, CategoryRepository $categoryRepository): Response
     {
         $category = new Category();
-        // Create the form, linked with $category
+
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted()) {
             $categoryRepository->save($category, true);
 
