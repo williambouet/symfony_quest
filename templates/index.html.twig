@@ -5,12 +5,30 @@
 
 {% block body %}
 
-	<section class="bg-image">
-		<img class="image_landing" src="{{ asset('build/images/home.jpg') }}" alt="Image de séries"/>
-		
-		<div class="position-absolute top-50 start-50 translate-middle">
-			<h1 class="text-center welcome">Bienvenue Sur Wild Series!</h1>
-		</div>
-	</section>
+	<div class="container">
+		<div class="row">
+			{% set interval = random(5, 20) * 1000 %}
+			{% set imageNumber = 1 %}
+			{% for i in 1..3 %}
+				<div class="col-4">
+					<div id="carousel{{i}}" class="carousel slide" data-bs-ride="carousel">
+						<div class="carousel-inner">
 
+							{% for j in 1..4 %}
+								<div class="carousel-item {{ (j == 1) ? 'active' : '' }}">
+									<img src="{{ asset('build/images/' ~ imageNumber ~ '.png') }}" class="d-block" alt="..." data-bs-interval="{{ interval }}">
+								</div>
+								{% set imageNumber = imageNumber + 1 %}
+							{% endfor %}
+
+						</div>
+					</div>
+				</div>
+				{% set imageNumber = imageNumber - 3 %}
+			{% endfor %}
+			<div class="position-absolute top-50 start-50 translate-middle">
+				<h1 class="text-center welcome">Bienvenue Sur Wild Series!</h1>
+			</div>
+		</div>
+	</div>
 {% endblock %}
