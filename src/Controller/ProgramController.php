@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use App\Entity\Program;
 use App\Form\ProgramType;
-use App\Repository\SeasonRepository;
 use App\Repository\EpisodeRepository;
 use App\Repository\ProgramRepository;
 use App\Repository\CategoryRepository;
@@ -22,10 +21,9 @@ class ProgramController extends AbstractController
     {
         $programs = $programRepository->findAll();
 
-        $categories = $categoryRepository->findAll();
         return $this->render('program/index.html.twig', [
             'programs' => $programs,
-            'categories' => $categories,
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -37,18 +35,16 @@ class ProgramController extends AbstractController
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $programRepository->save($program, true);
 
             $categories = $categoryRepository->findAll();
             return $this->redirectToRoute('program_index', ['categories' => $categories,]);
         }
 
-        $categories = $categoryRepository->findAll();
-        // Render the form (best practice)
         return $this->renderForm('program/new.html.twig', [
             'form' => $form,
-            'categories' => $categories,
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
