@@ -1,6 +1,6 @@
 {{ form_start(form) }}
 
-			{{ form_widget(form) }}
-            	<div class="d-flex justify-content-between  align-items-center">
-		<button class="btn btn-outline-dark my-3">{{ button_label|default('Enregistrer') }}</button>
-{{ form_end(form) }}
+{{ form_widget(form) }}
+<div class="d-flex justify-content-between  align-items-center">
+	<button class="btn btn-outline-light my-3 form-btn">{{ button_label|default('Enregistrer') }}</button>
+	{{ form_end(form) }}

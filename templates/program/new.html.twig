@@ -1,10 +1,41 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+	<h1 class="text-center mb-5 form-btn">Ajouter un programme</h1>
+
 	{{ include('_bs_form/_bs_top_form.html.twig')}}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-outline-dark my-3"type="submit">Ajouter</button>
-    {{ form_end(form) }}
-    	{{ include('_bs_form/_bs_bottom_form.html.twig')}}
+	{{ form_start(form) }}
+
+	<div class="errors d-flex">
+		{{ form_label(form.title) }}
+		{{ form_errors(form.title) }}
+	</div>
+	{{ form_widget(form.title) }}
+	{{ form_help(form.title) }}
+
+	<div class="errors d-flex">
+		{{ form_label(form.synopsis) }}
+		{{ form_errors(form.synopsis) }}
+	</div>
+	{{ form_widget(form.synopsis) }}
+	{{ form_help(form.synopsis) }}
+
+	<div class="errors d-flex">
+		{{ form_label(form.poster) }}
+		{{ form_errors(form.poster) }}
+	</div>
+	{{ form_widget(form.poster) }}
+	{{ form_help(form.poster) }}
+
+	<div class="errors d-flex">
+		{{ form_label(form.category) }}
+		{{ form_errors(form.category) }}
+	</div>
+	{{ form_widget(form.category) }}
+	{{ form_help(form.category) }}
+
+	<button class="btn btn-outline-light my-3 form-btn" type="submit">Ajouter</button>
+	{{ form_end(form) }}
+	{{ include('_bs_form/_bs_bottom_form.html.twig')}}
+
 {% endblock %}

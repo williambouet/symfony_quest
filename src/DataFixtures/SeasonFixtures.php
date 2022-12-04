@@ -13,34 +13,36 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class SeasonFixtures extends Fixture implements DependentFixtureInterface
 {
+
+    public const NUMBER_OF_SEASON_PER_PROGRAM = 7;
+
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
+        $numberOfProgram = ProgramFixtures::NUMBER_OF_PROGRAM;
+        $numberOfSeason = self::NUMBER_OF_SEASON_PER_PROGRAM;
 
-        /**
-        * L'objet $faker que tu récupères est l'outil qui va te permettre 
-        * de te générer toutes les données que tu souhaites
-        */
-        for($i = 1; $i <= 50; $i++) {
-            $season = new Season();
-            //Ce Faker va nous permettre d'alimenter l'instance de Season que l'on souhaite ajouter en base
-            $season->setNumber($faker->numberBetween(1, 10));
-            $season->setYear($faker->year());
-            $season->setDescription($faker->paragraphs(3, true));
-            $season->setProgram($this->getReference('program_' . $i));
-            $this->addReference('season_' . $i, $season);
-            
-            $manager->persist($season);
+        foreach (CategoryFixtures::CATEGORIES as $categoryName) {
+            for ($i = 1; $i <= $numberOfProgram; $i++) {
+                for ($j = 1; $j <= $numberOfSeason; $j++) {
+                    $season = new Season();
+                    $season->setNumber($j);
+                    $season->setYear($faker->year());
+                    $season->setDescription($faker->paragraphs(3, true));
+                    $season->setProgram($this->getReference('program_' . $i . '_' . $categoryName));
+                    $this->addReference('program_' . $i . '_' . $categoryName . '_season_' . $j, $season);
 
+                    $manager->persist($season);
+                }
+            }
         }
         $manager->flush();
-
     }
 
     public function getDependencies(): array
     {
         return [
-           ProgramFixtures::class,
+            ProgramFixtures::class,
         ];
     }
 }

@@ -3,7 +3,10 @@
 {% block title %}Season index{% endblock %}
 
 {% block body %}
-    <h1>Season index</h1>
+<div class="d-flex justify-content-between mb-5">
+    <h1 clas="">Administrer les saisons</h1>
+    <a class="btn btn-outline-light m-2 add-btn form-btn" href="{{ path('app_season_new') }}">Ajouter</a>
+</div>
 
     <table class="table">
         <thead>
@@ -17,16 +20,16 @@
         </thead>
         <tbody>
         {% for season in seasons %}
-            <tr>
-                <td>{{ season.id }}</td>
-                <td>{{ season.number }}</td>
-                <td>{{ season.year }}</td>
-                <td>{{ season.description }}</td>
-                <td>
-                    <a href="{{ path('app_season_show', {'id': season.id}) }}">show</a>
-                    <a href="{{ path('app_season_edit', {'id': season.id}) }}">edit</a>
+            <tr >
+                <td class="align-middle">{{ season.id }}</td>
+                <td class="align-middle">{{ season.number }}</td>
+                <td class="align-middle">{{ season.year }}</td>
+                <td class="align-middle lh-lg fw-light m-1">{{ season.description }}</td>
+                <td class="d-flex flex-column align-content-end">
+                    <a class="btn btn-outline-success my-1 form-btn" href="{{ path('app_season_show', {'id': season.id}) }}">show</a>
+                    <a class="btn btn-outline-warning my-1 form-btn" href="{{ path('app_season_edit', {'id': season.id}) }}">edit</a>
                 </td>
-            </tr>
+            </tr >
         {% else %}
             <tr>
                 <td colspan="5">no records found</td>
@@ -35,5 +38,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_season_new') }}">Create new</a>
+
 {% endblock %}

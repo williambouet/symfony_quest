@@ -9,29 +9,34 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class EpisodeFixtures extends Fixture implements  DependentFixtureInterface
+class EpisodeFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const NUMBER_OF_EPISODE_PER_SEASON = 8;
+
     public function load(ObjectManager $manager): void
     {
-        //Puis ici nous demandons à la Factory de nous fournir un Faker
+
         $faker = Factory::create();
 
-        /**
-         * L'objet $faker que tu récupères est l'outil qui va te permettre 
-         * de te générer toutes les données que tu souhaites
-         */
+        $numberOfProgram = ProgramFixtures::NUMBER_OF_PROGRAM;
+        $numberOfSeason = SeasonFixtures::NUMBER_OF_SEASON_PER_PROGRAM;
+        $numberOfEpisode = self::NUMBER_OF_EPISODE_PER_SEASON;
 
-        for ($i = 0; $i < 10; $i++) {
-            $episode = new Episode();
-            //Ce Faker va nous permettre d'alimenter l'instance de Season que l'on souhaite ajouter en base
-            $episode->setTitle($faker->sentence());
-            $episode->setSynopsis($faker->sentence(20, true));
-            $episode->setNumber($i);
-            $episode->setSeason($this->getReference('season_' . $faker->numberBetween(1, 10)));
-            
-            $manager->persist($episode);
+        foreach (CategoryFixtures::CATEGORIES as $categoryName) {
+            for ($i = 1; $i <= $numberOfProgram; $i++) {
+                for ($j = 1; $j <= $numberOfSeason; $j++) {
+                    for ($k = 1; $k <= $numberOfEpisode; $k++) {
+                        $episode = new Episode();
+                        $episode->setTitle($faker->sentence());
+                        $episode->setSynopsis($faker->sentence(20, true));
+                        $episode->setNumber($k);
+                        $episode->setSeason($this->getReference('program_' . $i . '_' . $categoryName . '_season_' . $j));
+
+                        $manager->persist($episode);
+                    }
+                }
+            }
         }
-
         $manager->flush();
     }
     public function getDependencies()

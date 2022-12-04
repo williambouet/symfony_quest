@@ -45,3 +45,35 @@ a {
 
 }
 
+.welcome {
+    font-size: 5rem;
+    color: $primary;
+    background-color: white;
+    opacity: 70%;
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    width: 50vw;
+    height: auto;
+    border-radius: 4px;
+}
+
+.errors ul {
+    margin-bottom: 0;
+}
+
+.errors ul li {
+    color: red;
+    list-style-type: none;
+}
+
+.form-btn {
+    min-width: 6rem;
+}
+
+
+.carousel-item img {
+    transform-origin: top;
+    transform: scale(0.8);
+    object-position: 50% 50%;
+}
