@@ -27,7 +27,7 @@
 									<div class="d-flex">
 								<p class="text-secondary text-align-start mb-4">Acteurs :
 									{% for actor in program.actors %}
-										{{ actor.name }},
+									<a href="{{ path("actor_id", { id: actor.id }) }}" class="text-secondary text-decoration-none">{{ actor.name }}, </a>
 										{% else %}
 											Aucun acteur pour cette série
 											{% endfor %}

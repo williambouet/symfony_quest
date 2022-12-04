@@ -22,13 +22,12 @@ class ActorController extends AbstractController
         ]);   
     }
 
-    #[Route('/{id}', name: 'id', methods: ['GET'])]
-    public function show(Actor $actor, CategoryRepository $categoryRepository, ProgramRepository $programRepository): Response
+    #[Route('/show/{id}', name: 'id', methods: ['GET'])]
+    public function show(Actor $actor, CategoryRepository $categoryRepository): Response
     {
-        return $this->render('actor_controller_c/show.html.twig', [
+        return $this->render('actor/show.html.twig', [
             'actor' => $actor,
             'categories' => $categoryRepository->findAll(),
-            'programs' => $programRepository->findAll(),
         ]);
     }
 
