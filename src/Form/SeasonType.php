@@ -18,12 +18,27 @@ class SeasonType extends AbstractType
             ->add('number', NumberType::class, [
                 'label' => 'Numéro',
                 'required' => true,
-                'attr' => ['class' => 'tinymce form-control my-2',],
+                'attr' => [
+                    'class' => 'tinymce form-control my-2',
+                    'placeholder' => 'Indiquez le numéro de la saison',
+                ],
+                'help' => 'Ex : 10',
+                'help_attr' => [
+                    'class' => 'text-secondary fw-light ',
+                
+                ],
                 ])
             ->add('year', NumberType::class, [
                 'label' => 'Année',
                 'required' => true,
-                'attr' => ['class' => 'tinymce form-control my-2',],
+                'attr' => [
+                    'class' => 'tinymce form-control my-2',
+                    'placeholder' => 'Indiquez l\'année de diffusion',
+                ],
+                'help' => 'Ex : 2010',
+                'help_attr' => [
+                    'class' => 'text-secondary fw-light ',
+                ],
                 ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
@@ -32,7 +47,15 @@ class SeasonType extends AbstractType
                 ])
             ->add('program', null, [
                 'choice_label' => 'title',
-                'attr' => ['class' => 'tinymce form-control my-2',],
+                'attr' => [
+                    'class' => 'tinymce form-control my-2',
+                    "rows" => "3",
+                    'placeholder' => 'Tapez la description ici...',
+                ],
+                'help' => 'Ex : Cette saison permet de faire la découverte de nouveaux personnages, dont un particulièrement...',
+                'help_attr' => [
+                    'class' => 'text-secondary fw-light ',
+                ],
                 ])
         ;
     }

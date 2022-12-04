@@ -4,9 +4,7 @@
 
 {% block body %}
     <h1>Ajouter un épisode</h1>
-{{ include('_bs_form/_bs_top_form.html.twig')}}
-
-    {{ include('episode/_form.html.twig') }}
+	{{ include('episode/_inner_form.html.twig')}}
 
     <a class="btn btn-outline-secondary my-3 form-btn" href="{{ path('app_episode_index') }}">Retour</a>
     {{ include('_bs_form/_bs_bottom_form.html.twig')}}

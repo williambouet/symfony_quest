@@ -1,0 +1,33 @@
+{{ include('_bs_form/_bs_top_form.html.twig')}}
+	{{ form_start(form) }}
+
+	<div class="errors d-flex">
+		{{ form_label(form.title) }}
+		{{ form_errors(form.title) }}
+	</div>
+	{{ form_widget(form.title) }}
+	{{ form_help(form.title) }}
+
+	<div class="errors d-flex">
+		{{ form_label(form.number) }}
+		{{ form_errors(form.number) }}
+	</div>
+	{{ form_widget(form.number) }}
+	{{ form_help(form.number) }}
+
+
+
+	<div class="errors d-flex">
+		{{ form_label(form.synopsis) }}
+		{{ form_errors(form.synopsis) }}
+	</div>
+	{{ form_widget(form.synopsis) }}
+	{{ form_help(form.synopsis) }}
+
+
+	<div class="errors d-flex">
+		{{ form_label(form.season) }}
+		{{ form_errors(form.season) }}
+	</div>
+	{{ form_widget(form.season) }}
+	{{ form_help(form.season) }}

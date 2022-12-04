@@ -1,15 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Season{% endblock %}
+{% block title %}Edit Season
+{% endblock %}
 
 {% block body %}
-    <h1>Modifier une saison</h1>
-	{{ include('_bs_form/_bs_top_form.html.twig')}}
-    {{ include('_bs_form/_form.html.twig', {'button_label': 'Editer'}) }}
+	<h1>Modifier une saison</h1>
+	{{ include('season/_inner_form.html.twig') }}
 
-    {{ include('season/_delete_form.html.twig') }}
-	</div>
-		<a class="btn btn-outline-secondary my-3 form-btn" href="{{ path('app_season_index') }}">Retour</a>
+</div>
+<a class="btn btn-outline-secondary my-3 form-btn" href="{{ path('app_season_index') }}">Retour</a>
+{{ include('season/_delete_form.html.twig') }}
 
-    	{{ include('_bs_form/_bs_bottom_form.html.twig')}}
-{% endblock %}
+{{ include('_bs_form/_bs_bottom_form.html.twig')}}{% endblock %}

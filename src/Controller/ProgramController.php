@@ -123,6 +123,9 @@ class ProgramController extends AbstractController
         ]);
     }
 
+
+
+
     #[Route('/{id}/edit', name: 'app_program_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, ProgramRepository $programRepository, CategoryRepository $categoryRepository,): Response
     {
@@ -131,6 +134,7 @@ class ProgramController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $programRepository->save($program, true);
+            $this->addFlash('success', 'Le programme est modifié.');
 
             return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -147,6 +151,7 @@ class ProgramController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
             $programRepository->remove($program, true);
+            $this->addFlash('danger', 'Le programme est supprimé.');
         }
 
         return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER); 
