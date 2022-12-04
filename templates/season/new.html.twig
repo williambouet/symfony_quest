@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Ajouter une saison</h1>
     {{ include('season/_inner_form.html.twig') }}
-
+    {{ include('_bs_form/_form.html.twig')}}
     <a class="btn btn-outline-secondary my-3 form-btn" href="{{ path('app_season_index') }}">Retour</a>
         {{ include('_bs_form/_bs_bottom_form.html.twig')}}
 {% endblock %}

@@ -5,9 +5,9 @@
 <h1 class="text-center mb-5">Ajouter une catégorie</h1>
 
 	{{ include('category/_inner_form.html.twig')}}
+    {{ include('_bs_form/_form.html.twig')}}
+	    <a class="btn btn-outline-secondary my-3 form-btn" href="{{ path('category_app_category_index') }}">Retour</a>
 
-	<button class="btn btn-outline-light my-3 form-btn" type="submit">Ajouter</button>
-	{{ form_end(form) }}
 	{{ include('_bs_form/_bs_bottom_form.html.twig')}}
 
 {% endblock %}

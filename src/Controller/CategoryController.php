@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CategoryController extends AbstractController
 {
 
-    #[Route('/', name: 'app_category_index', methods: ['GET'])]
+    #[Route('/list', name: 'app_category_index', methods: ['GET'])]
     public function app_index(CategoryRepository $categoryRepository): Response
     {
         return $this->render('category/app_index.html.twig', [
