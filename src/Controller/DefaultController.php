@@ -13,8 +13,7 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'App_index')]
     public function index(CategoryRepository $categoryRepository): Response
     {
-        $categories = $categoryRepository->findAll();
         
-        return $this->render('index.html.twig', ['categories' => $categories]);
+        return $this->render('index.html.twig', ['categories' => $categoryRepository->findAll()]);
     }
 }

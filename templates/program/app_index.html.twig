@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Program index{% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-between mb-5">
+    <h1>Administrer les programmes</h1>
+    <a class="btn btn-outline-light m-2 add-btn form-btn" href="{{ path('program_app_program_new') }}">Ajouter</a>
+</div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Synopsis</th>
+                <th>Poster</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for program in programs %}
+            <tr>
+                <td class="align-middle">{{ program.id }}</td>
+                <td class="align-middle">{{ program.title }}</td>
+                <td class="align-middle">{{ program.synopsis }}</td>
+                <td class="align-middle">{{ program.poster }}</td>
+                <td>
+                    <a class="btn btn-outline-success my-1 form-btn" href="{{ path('program_app_program_show', {'id': program.id}) }}">show</a>
+                    <a class="btn btn-outline-warning my-1 form-btn" href="{{ path('program_app_program_edit', {'id': program.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

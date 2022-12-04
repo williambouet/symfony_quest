@@ -1,0 +1,26 @@
+{{ include('_bs_form/_bs_top_form.html.twig')}}
+	{{ form_start(form) }}
+
+	<div class="errors d-flex">
+		{{ form_label(form.number) }}
+		{{ form_errors(form.number) }}
+	</div>
+	{{ form_widget(form.number) }}
+	{{ form_help(form.number) }}
+
+	<div class="errors d-flex">
+		{{ form_label(form.year) }}
+		{{ form_errors(form.year) }}
+	</div>
+	{{ form_widget(form.year) }}
+	{{ form_help(form.year) }}
+
+
+	<div class="errors d-flex">
+		{{ form_label(form.description) }}
+		{{ form_errors(form.description) }}
+	</div>
+	{{ form_widget(form.description) }}
+	{{ form_help(form.description) }}
+
+	

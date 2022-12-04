@@ -23,6 +23,9 @@ class EpisodeController extends AbstractController
         ]);
     }
 
+
+
+
     #[Route('/new', name: 'app_episode_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EpisodeRepository $episodeRepository, CategoryRepository $categoryRepository): Response
     {
@@ -32,6 +35,7 @@ class EpisodeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $episodeRepository->save($episode, true);
+            $this->addFlash('success', 'L\épisode est ajouté.');
 
             return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -43,6 +47,9 @@ class EpisodeController extends AbstractController
         ]);
     }
 
+
+
+
     #[Route('/{id}', name: 'app_episode_show', methods: ['GET'])]
     public function show(Episode $episode, CategoryRepository $categoryRepository): Response
     {
@@ -52,6 +59,9 @@ class EpisodeController extends AbstractController
         ]);
     }
 
+
+
+
     #[Route('/{id}/edit', name: 'app_episode_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Episode $episode, EpisodeRepository $episodeRepository, CategoryRepository $categoryRepository): Response
     {
@@ -60,6 +70,7 @@ class EpisodeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $episodeRepository->save($episode, true);
+            $this->addFlash('success', 'L\'épisode est modifié.');
 
             return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -71,11 +82,15 @@ class EpisodeController extends AbstractController
         ]);
     }
 
+
+
+
     #[Route('/{id}', name: 'app_episode_delete', methods: ['POST'])]
     public function delete(Request $request, Episode $episode, EpisodeRepository $episodeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$episode->getId(), $request->request->get('_token'))) {
             $episodeRepository->remove($episode, true);
+            $this->addFlash('danger', 'L\'épisode est supprimé.');
         }
 
         return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);

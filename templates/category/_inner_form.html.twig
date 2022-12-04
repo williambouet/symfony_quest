@@ -1,0 +1,9 @@
+{{ include('_bs_form/_bs_top_form.html.twig')}}
+	{{ form_start(form) }}
+
+	<div class="errors d-flex">
+		{{ form_label(form.name) }}
+		{{ form_errors(form.name) }}
+	</div>
+	{{ form_widget(form.name) }}
+	{{ form_help(form.name) }}
