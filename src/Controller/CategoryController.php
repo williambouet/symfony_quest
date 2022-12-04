@@ -24,6 +24,10 @@ class CategoryController extends AbstractController
         return $this->render('category/index.html.twig', ['categories' => $categoryRepository->findAll()]);
     }
 
+
+
+
+
     #[Route('/new', name: 'new')]
     public function new(Request $request, CategoryRepository $categoryRepository): Response
     {
@@ -32,21 +36,24 @@ class CategoryController extends AbstractController
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $categoryRepository->save($category, true);
+
+            $this->addFlash('success', 'La catégorie est ajoutée.');
 
             return $this->redirectToRoute('category_index');
         }
 
-        
-        // Render the form (best practice)
         return $this->renderForm('category/new.html.twig', [
             'form' => $form,
             'categories' => $categoryRepository->findAll(),
         ]);
     }
     
+
+
+
+
     #[Route('/{categoryName}', requirements: ['categoryName' => '^[a-zA-Z\-_]+$'], methods: ['GET'], name: 'show')]
     public function show(string $categoryName, ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
     {
@@ -56,7 +63,6 @@ class CategoryController extends AbstractController
         if (!$programs)
             throw $this->createNotFoundException('Aucun programme pour la catégorie.');
         
-
         return $this->render('category/show.html.twig', [
             'programs' => $programs, 
             'category' => $category, 

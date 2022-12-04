@@ -16,30 +16,40 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
 {
-    #[Route('/', name: 'index')]
-    public function index(ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
+    #[Route('/app', name: 'app_program_index', methods: ['GET'])]
+    public function app_index(ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
     {
-        $programs = $programRepository->findAll();
-
-        return $this->render('program/index.html.twig', [
-            'programs' => $programs,
+        return $this->render('program/app_index.html.twig', [
+            'programs' => $programRepository->findAll(),
             'categories' => $categoryRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'new')]
+
+    #[Route('/', name: 'index')]
+    public function index(ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
+    {
+
+        return $this->render('program/index.html.twig', [
+            'programs' => $programRepository->findAll(),
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
+
+
+    #[Route('/new', name: 'app_program_new')]
     public function new(Request $request, ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
     {
         $program = new Program();
-        // Create the form, linked with $category
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $programRepository->save($program, true);
+            $this->addFlash('success', 'Le programme est ajouté.');
 
-            $categories = $categoryRepository->findAll();
-            return $this->redirectToRoute('program_index', ['categories' => $categories,]);
+            return $this->redirectToRoute('program_app_program_index', ['categories' => $categoryRepository->findAll(),]);
         }
 
         return $this->renderForm('program/new.html.twig', [
@@ -64,22 +74,29 @@ class ProgramController extends AbstractController
         ]);
     }
 
-
+    #[Route('/{id}', name: 'app_program_show', methods: ['GET'])]
+    public function app_show(Program $program, CategoryRepository $categoryRepository,): Response
+    {
+        return $this->render('program/app_show.html.twig', [
+            'program' => $program,
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
 
 
     #[Route('/{id}', requirements: ['id' => '^[0-9]+$'], methods: ['GET'], name: 'show')]
     public function show(Program $program,  CategoryRepository $categoryRepository): Response
     { //avec la méthode magique ^
-        $seasons = $program->getSeasons();
         if (!$program)
             throw $this->createNotFoundException('Aucune série trouvée');
 
         return $this->render('program/show.html.twig', [
             'program' => $program,
-            'seasons' => $seasons,
+            'seasons' => $program->getSeasons(),
             'categories' => $categoryRepository->findAll(),
         ]);
     }
+
 
 
 
@@ -94,9 +111,7 @@ class ProgramController extends AbstractController
     ): Response {
 
         $programs = $programRepository->findBy(['id' => $programId]);
-        
         $episodes = $episodeRepository->findBy(['season' => $seasonId]);
-        
 
         if (!$episodes)
             throw $this->createNotFoundException('Aucune season trouvée');
@@ -107,4 +122,35 @@ class ProgramController extends AbstractController
             'categories' => $categoryRepository->findAll(),
         ]);
     }
+
+    #[Route('/{id}/edit', name: 'app_program_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Program $program, ProgramRepository $programRepository, CategoryRepository $categoryRepository,): Response
+    {
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $programRepository->save($program, true);
+
+            return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('program/edit.html.twig', [
+            'program' => $program,
+            'form' => $form,
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_program_delete', methods: ['POST'])]
+    public function delete(Request $request, Program $program, ProgramRepository $programRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
+            $programRepository->remove($program, true);
+        }
+
+        return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER); 
+   }
+
+
 }

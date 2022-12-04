@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Program
+{% endblock %}
+
+{% block body %}
+	<h1>Edit Program</h1>
+	{{ include('_bs_form/_bs_top_form.html.twig')}}
+	{{ include('_bs_form/_form.html.twig', {'button_label': 'Update'}) }}
+	{{ include('program/_delete_form.html.twig') }}
+    </div>
+    <a class="btn btn-outline-secondary my-3 form-btn" href="{{ path('program_app_program_index') }}">Retour</a>
+
+    {{ include('_bs_form/_bs_bottom_form.html.twig')}}
+{% endblock %}
