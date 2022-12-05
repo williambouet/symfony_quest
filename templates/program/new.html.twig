@@ -5,7 +5,7 @@
 
 	{{ include('program/_inner_form.html.twig')}}
     {{ include('_bs_form/_form.html.twig')}}
-	<button class="btn btn-outline-light my-3 form-btn" type="submit">Ajouter</button>
+    <a class="btn btn-outline-secondary my-3 form-btn" href="{{ path('program_app_program_index') }}">Retour</a>
 	{{ form_end(form) }}
 	{{ include('_bs_form/_bs_bottom_form.html.twig')}}
 

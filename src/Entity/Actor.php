@@ -19,7 +19,7 @@ class Actor
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Program::class, inversedBy: 'actors')]
-    private Collection $programs;
+    private ?Collection $programs;
 
     public function __construct()
     {

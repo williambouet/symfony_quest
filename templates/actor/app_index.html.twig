@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actor index{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between mb-5">
+    <h1>Administrer les acteurs</h1>
+ <a class="btn btn-outline-light m-2 add-btn form-btn" href="{{ path('actor_app_actor_new') }}">Ajouter</a>
+</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for actor in actors %}
+            <tr>
+                <td class="align-middle">{{ actor.id }}</td>
+                <td class="align-middle">{{ actor.name }}</td>
+                <td>
+                    <a class="btn btn-outline-success my-1 form-btn" href="{{ path('actor_app_actor_show', {'id': actor.id}) }}">show</a>
+                    <a class="btn btn-outline-warning my-1 form-btn" href="{{ path('actor_app_actor_edit', {'id': actor.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Données vides</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
