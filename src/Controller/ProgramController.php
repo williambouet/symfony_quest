@@ -56,6 +56,7 @@ class ProgramController extends AbstractController
         return $this->renderForm('program/new.html.twig', [
             'form' => $form,
             'categories' => $categoryRepository->findAll(),
+
         ]);
     }
 
@@ -75,7 +76,7 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/show/{id}', name: 'app_program_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_program_show', methods: ['GET'])]
     public function app_show(Program $program, CategoryRepository $categoryRepository,): Response
     {
         return $this->render('program/app_show.html.twig', [
@@ -85,7 +86,7 @@ class ProgramController extends AbstractController
     }
 
 
-    #[Route('/{id}', requirements: ['id' => '^[0-9]+$'], methods: ['GET'], name: 'show')]
+    #[Route('/show/{id}', requirements: ['id' => '^[0-9]+$'], methods: ['GET'], name: 'show')]
     public function show(Program $program,  CategoryRepository $categoryRepository): Response
     { //avec la méthode magique ^
         if (!$program)
@@ -125,9 +126,18 @@ class ProgramController extends AbstractController
     }
 
 
+    #[Route('/delete/{id}', name: 'app_program_delete', methods: ['POST'])]
+    public function delete(Request $request, Program $program, ProgramRepository $programRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
+            $programRepository->remove($program, true);
+            $this->addFlash('danger', 'Le programme est supprimé.');
+        }
 
+        return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER); 
+   }
 
-    #[Route('/{id}/edit', name: 'app_program_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'app_program_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, ProgramRepository $programRepository, CategoryRepository $categoryRepository,): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
@@ -147,16 +157,7 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_program_delete', methods: ['POST'])]
-    public function delete(Request $request, Program $program, ProgramRepository $programRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
-            $programRepository->remove($program, true);
-            $this->addFlash('danger', 'Le programme est supprimé.');
-        }
 
-        return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER); 
-   }
 
 
 }

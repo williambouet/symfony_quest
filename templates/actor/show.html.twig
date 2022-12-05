@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acteur
+{% endblock %}
+
+{% block body %}
+	<div class="contenair">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<h1>{{ actor.name }}</h1>
+				<div class="card my-3">
+					<div class="row g-0">
+						<div class="col-md-4">
+							<img src="{{ asset('build/images/actor' ~ random(1,10) ~ '.png') }}" class="card-img-top" alt="Une photo de {{ actor.name }}">
+						</div>
+						<div class="col-md-8">
+							<div class="card-body h-100">
+								<p class="card-title fs-1 text-center">{{ actor.name }}</p>
+								<p class="card-title fs-3 text-center">A jouer dans :</p>
+								<ul>
+									{% for program in actor.programs %}
+										<li>
+											<a href="{{ path("program_show", { id: program.id }) }}" class="text-dark text-decoration-none">{{ program.title }}</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</div>
+							<div class="position-relative ">
+
+								<a href="{{ path('App_index') }}" class="btn btn-outline-secondary position-absolute bottom-0 end-0">Retour à l'accueil</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
