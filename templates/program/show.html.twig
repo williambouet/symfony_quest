@@ -16,9 +16,11 @@
 							<div class="d-flex justify-content-between">
 								<p class="text-secondary m-0">Catégorie :
 									{{ program.category.name }}</p>
+									<p class="text-secondary m-0">Durée :
+									{{ duration }}</p>
 										<p class="text-secondary m-0">Saison :
 											{% for season in program.seasons %}
-												<a href="{{ path("program_season_show", { seasonId: season.id, programId: program.id }) }}" class="text-secondary text-decoration-none">
+												<a href="{{ path("program_season_show", { seasonId: season.id, slug: program.slug }) }}" class="text-secondary text-decoration-none">
 													{{season.number}}
 												</a>
 											{% endfor %}
@@ -38,12 +40,12 @@
 										{% for season in program.seasons %}
 
 											<div class="d-flex justify-content-between">
-												<a href="{{ path("program_season_show", { seasonId: season.id, programId: program.id }) }}" class="text-dark">
+												<a href="{{ path("program_season_show", { seasonId: season.id, slug: program.slug }) }}" class="text-dark">
 													<p class="fs-5 m-0">Description de la saison :
 														{{season.number}}
 													</p>
 												</a>
-												<a href="{{ path("program_season_show", { seasonId: season.id, programId: program.id }) }}" class="btn btn-outline-dark btn-sm">Détail des épisodes</a>
+												<a href="{{ path("program_season_show", { seasonId: season.id, slug: program.slug }) }}" class="btn btn-outline-dark btn-sm">Détail des épisodes</a>
 											</div>
 											<p class="border-bottom my-3 pb-3 fw-light lh-lg">{{ season.description }}</p>
 										{% endfor %}

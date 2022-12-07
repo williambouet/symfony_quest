@@ -22,13 +22,13 @@
         <tbody>
         {% for program in programs %}
             <tr>
-                <td class="align-middle">{{ program.id }}</td>
+                <td class="align-middle">{{ program.slug }}</td>
                 <td class="align-middle">{{ program.title }}</td>
                 <td class="align-middle">{{ program.synopsis }}</td>
                 <td class="align-middle">{{ program.poster }}</td>
                 <td>
-                    <a class="btn btn-outline-success my-1 form-btn" href="{{ path('program_app_program_show', {'id': program.id}) }}">show</a>
-                    <a class="btn btn-outline-warning my-1 form-btn" href="{{ path('program_app_program_edit', {'id': program.id}) }}">edit</a>
+                    <a class="btn btn-outline-success my-1 form-btn" href="{{ path('program_app_program_show', {'slug': program.slug}) }}">show</a>
+                    <a class="btn btn-outline-warning my-1 form-btn" href="{{ path('program_app_program_edit', {'slug': program.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

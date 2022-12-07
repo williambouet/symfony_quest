@@ -5,18 +5,29 @@ namespace App\Controller;
 
 use App\Entity\Program;
 use App\Form\ProgramType;
+use App\Service\ProgramDuration;
+use App\Repository\SeasonRepository;
 use App\Repository\EpisodeRepository;
 use App\Repository\ProgramRepository;
 use App\Repository\CategoryRepository;
-use App\Repository\SeasonRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
 {
+
+    private SluggerInterface $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+
+
     #[Route('/app', name: 'app_program_index', methods: ['GET'])]
     public function app_index(ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
     {
@@ -47,6 +58,8 @@ class ProgramController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $this->slugger->slug($program->getTitle());
+            $program->setSlug($slug);   
             $programRepository->save($program, true);
             $this->addFlash('success', 'Le programme est ajouté.');
 
@@ -76,7 +89,7 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_program_show', methods: ['GET'])]
+    #[Route('/{slug}', name: 'app_program_show', methods: ['GET'])]
     public function app_show(Program $program, CategoryRepository $categoryRepository,): Response
     {
         return $this->render('program/app_show.html.twig', [
@@ -86,8 +99,8 @@ class ProgramController extends AbstractController
     }
 
 
-    #[Route('/show/{id}', requirements: ['id' => '^[0-9]+$'], methods: ['GET'], name: 'show')]
-    public function show(Program $program,  CategoryRepository $categoryRepository): Response
+    #[Route('/show/{slug}', requirements: ['slug' => '^[a-zA-Z0-9\-]+$'], methods: ['GET'], name: 'show')]
+    public function show(Program $program,  CategoryRepository $categoryRepository, ProgramDuration $programDuration): Response
     { //avec la méthode magique ^
         if (!$program)
             throw $this->createNotFoundException('Aucune série trouvée');
@@ -96,6 +109,7 @@ class ProgramController extends AbstractController
             'program' => $program,
             'seasons' => $program->getSeasons(),
             'categories' => $categoryRepository->findAll(),
+            'duration' => $programDuration->calculate($program),
         ]);
     }
 
@@ -103,16 +117,16 @@ class ProgramController extends AbstractController
 
 
 
-    #[Route('/program/{programId}/seasons/{seasonId}', requirements: ['seasonId' => '^[0-9]+$', 'programId' => '^[0-9]+$',], methods: ['GET'], name: 'season_show')]
+    #[Route('/program/{slug}/seasons/{seasonId}', requirements: ['seasonId' => '^[0-9]+$','slug' => '^[a-zA-Z0-9\-]+$',], methods: ['GET'], name: 'season_show')]
     public function showSeason(
-        int $programId,
+        string $slug,
         int $seasonId,
         EpisodeRepository $episodeRepository,
         CategoryRepository $categoryRepository,
         ProgramRepository $programRepository,
     ): Response {
 
-        $programs = $programRepository->findBy(['id' => $programId]);
+        $programs = $programRepository->findBy(['slug' => $slug]);
         $episodes = $episodeRepository->findBy(['season' => $seasonId]);
 
         if (!$episodes)
@@ -137,13 +151,15 @@ class ProgramController extends AbstractController
         return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER); 
    }
 
-    #[Route('/edit/{id}', name: 'app_program_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{slug}', name: 'app_program_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, ProgramRepository $programRepository, CategoryRepository $categoryRepository,): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $this->slugger->slug($program->getTitle());
+            $program->setSlug($slug); 
             $programRepository->save($program, true);
             $this->addFlash('success', 'Le programme est modifié.');
 

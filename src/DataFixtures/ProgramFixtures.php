@@ -5,14 +5,26 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\Season;
 use App\Entity\Program;
+use App\DataFixtures\ActorFixtures;
+use App\DataFixtures\CategoryFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
     public const NUMBER_OF_PROGRAM = 6;
     public const NUMBER_OF_ACTOR_IN_PROGRAM = 3;
+    private SluggerInterface $slugger;
+    
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+    
+    
+    
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
@@ -21,7 +33,10 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         foreach (CategoryFixtures::CATEGORIES as $categoryName) {
             for ($i = 1; $i <= $numberOfProgram; $i++) {
                 $program = new Program();
-                $program->setTitle($faker->sentence(3, true));
+                $title = $faker->sentence(3, true);
+                $slug = $this->slugger->slug($title);
+                $program->setSlug($slug);
+                $program->setTitle($title);
                 $program->setPoster($categoryName . '.jpg');
                 $program->setSynopsis($faker->sentence(20, true));
                 $program->setCategory($this->getReference('category_' . $categoryName));
