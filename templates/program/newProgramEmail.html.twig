@@ -1,0 +1,19 @@
+{% extends "email/baseEmail.html.twig" %}
+
+{% block emailTitle %}Nouvelle série
+{% endblock %}
+
+{% block category %}
+	Une nouvelle série dans la catégorie :
+	{{ program.category.name }}
+
+{% endblock %}
+
+
+{% block title %}
+	{{ program.title }}
+{% endblock %}
+
+{% block program %}
+	{{ program.synopsis }}
+{% endblock %}

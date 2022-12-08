@@ -1,0 +1,19 @@
+{% extends "email/baseEmail.html.twig" %}
+
+{% block emailTitle %}Nouvel épisode
+{% endblock %}
+
+{% block category %}
+	Un nouvel épisode dans la catégorie :
+	
+<a href="http://localhost:8000{{ path("category_show", { categoryName: category.name }) }}" class="btn btn-outline-secondary">{{ category.name }}</a>
+{% endblock %}
+
+
+{% block title %}
+	{{ episode.title }}
+{% endblock %}
+
+{% block program %}
+	{{ episode.synopsis }}
+{% endblock %}
