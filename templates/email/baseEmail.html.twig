@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block emailTitle %}{% endblock %}
+    
+</head>
+<body>
+	<div class="contenair">
+		<div class="row ">
+			<h1 class="text-light">
+            {% block category %}
+            
+            {% endblock %}
+            
+			</h1>
+			<div class="col-12 col-lg-3 d-flex g-3">
+				<div class="card my-3 h-100">
+					<div class="card-body">
+
+						<div class="h-100 d-flex flex-column justify-content-between">
+							<div>
+
+								<h2>{% block title %}{% endblock %}</h2>
+								<p>{% block program %}{% endblock %}</p> 
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

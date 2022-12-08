@@ -6,11 +6,13 @@ namespace App\Controller;
 use App\Entity\Program;
 use App\Form\ProgramType;
 use App\Service\ProgramDuration;
+use Symfony\Component\Mime\Email;
 use App\Repository\SeasonRepository;
 use App\Repository\EpisodeRepository;
 use App\Repository\ProgramRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -51,7 +53,7 @@ class ProgramController extends AbstractController
 
 
     #[Route('/new', name: 'app_program_new')]
-    public function new(Request $request, ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
+    public function new(Request $request, MailerInterface $mailer, ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
@@ -62,6 +64,15 @@ class ProgramController extends AbstractController
             $program->setSlug($slug);   
             $programRepository->save($program, true);
             $this->addFlash('success', 'Le programme est ajouté.');
+
+            $mail = (new Email())
+                ->from($this->getParameter('mailer_from'))
+                ->to('william.bouet.14@gmail.com')
+                ->subject('Une nouvelle série dans la base')
+                ->html($this->renderView('program/newProgramEmail.html.twig', ['program' => $program]));
+            $mailer->send($mail);
+
+
 
             return $this->redirectToRoute('program_app_program_index', ['categories' => $categoryRepository->findAll(),]);
         }

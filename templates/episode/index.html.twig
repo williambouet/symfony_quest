@@ -27,8 +27,8 @@
                 <td class="align-middle">{{ episode.number }}</td>
                 <td class="align-middle lh-lg fw-light m-1">{{ episode.synopsis }}</td>
                 <td class="d-flex flex-column align-content-end">
-                    <a class="btn btn-outline-success form-btn my-1"  href="{{ path('app_episode_show', {'id': episode.id}) }}">show</a>
-                    <a class="btn btn-outline-warning form-btn my-1" href="{{ path('app_episode_edit', {'id': episode.id}) }}">edit</a>
+                    <a class="btn btn-outline-success form-btn my-1"  href="{{ path('app_episode_show', {'slug': episode.slug}) }}">show</a>
+                    <a class="btn btn-outline-warning form-btn my-1" href="{{ path('app_episode_edit', {'slug': episode.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
