@@ -2,16 +2,22 @@
 
 namespace App\Entity;
 
+use App\Entity\Actor;
+use App\Entity\Season;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProgramRepository;
+use DateTime;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 #[UniqueEntity('title')]
+#[Vich\Uploadable] 
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
 class Program
 {
@@ -38,12 +44,21 @@ class Program
     private ?string $synopsis = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Assert\NotBlank(message: 'Ne me laisse pas tout vide')]
+    private ?string $poster = null;
+    
+    #[Vich\UploadableField(mapping: 'poster_file', fileNameProperty: 'poster')]
     #[Assert\Length(
         max: 255,
         maxMessage: 'Le poster saisi est trop long, il ne devrait pas dépasser {{ limit }} caractères',
     )]
-     private ?string $poster = null;
+    #[Assert\File(
+        maxSize: '1M',
+        mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+    )]
+     private ?File $posterFile = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?DateTime $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'programs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -189,6 +204,48 @@ class Program
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+     /**
+      * Get the value of posterFile
+      */ 
+     public function getPosterFile(): ?File
+     {
+          return $this->posterFile;
+     }
+
+     /**
+      * Set the value of posterFile
+      *
+      * @return  self
+      */ 
+     public function setPosterFile(File $posterFile = null): Program
+     {
+          $this->posterFile = $posterFile;
+        if ($posterFile)
+            $this->updatedAt = new DateTime('now');
+
+        return $this;
+     }
+
+    /**
+     * Get the value of updatedAt
+     */ 
+    public function getUpdatedAt():DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set the value of updatedAt
+     *
+     * @return  self
+     */ 
+    public function setUpdatedAt(DateTime $updatedAt): Program
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

@@ -6,6 +6,7 @@ use App\Entity\Actor;
 use App\Entity\Program;
 use App\Repository\CategoryRepository;
 use Symfony\Component\Form\AbstractType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,10 +19,12 @@ class ProgramType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-        
+
         $builder
             ->add(
-                'title', TextType::class, [
+                'title',
+                TextType::class,
+                [
                     'label' => 'Titre',
                     'required' => true,
                     'attr' => [
@@ -32,7 +35,8 @@ class ProgramType extends AbstractType
                     'help_attr' => [
                         'class' => 'text-secondary fw-light ',
                     ],
-                ])
+                ]
+            )
             ->add('synopsis', TextareaType::class, [
                 'label' => 'Synopsis',
                 'required' => true,
@@ -45,18 +49,20 @@ class ProgramType extends AbstractType
                     'class' => 'text-secondary fw-light ',
                 ],
             ])
-            ->add('poster', TextType::class, [
-                'label' => 'Poster',
-                'required' => true,
+            ->add('posterFile', VichFileType::class, [
+                'label' => 'Poster du programme',
                 'attr' => [
                     'class' => 'tinymce  form-control my-2',
-                    'placeholder' => 'Tapez le nom du poster ici...',
+                    'placeholder' => 'Chargez le poster ici...',
                 ],
-                'help' => 'Nom identique à la catégorie. Ex : Pour la catégorie Action -> Poster = Action.jpg ...',
+                'required' => false,
+                'allow_delete' => true, // not mandatory, default is true
+                'download_uri' => true, // not mandatory, default is true
+                'help' => 'Chargez un poster inférieure à 1Mo et type jpeg, png, webp',
                 'help_attr' => [
                     'class' => 'text-secondary fw-light ',
                 ],
-                ])
+            ])
             ->add('category', null, [
                 'choice_label' => 'name',
                 'attr' => ['class' => 'form-select  my-2'],
@@ -76,8 +82,7 @@ class ProgramType extends AbstractType
                     'class' => 'text-secondary fw-light ',
                 ],
                 'by_reference' => false,
-            ]);
-            ;
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

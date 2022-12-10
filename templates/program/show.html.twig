@@ -11,7 +11,7 @@
 				<h1>Le programme</h1>
 				{% if program is not empty %}
 					<div class="card my-3 ">
-						<img src="{{ asset('build/images/' ~ program.poster) }}" class="card-img-top" alt="Une image du programme {{ program.poster }}">
+						<img src="{{ vich_uploader_asset(program) }}" class="card-img-top" alt="Une image du programme {{ program.title }}">
 						<div class="card-body">
 							<div class="d-flex justify-content-between">
 								<p class="text-secondary m-0">Catégorie :

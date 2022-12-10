@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Actor;
 use App\Entity\Program;
 use Symfony\Component\Form\AbstractType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,6 +27,20 @@ class ActorType extends AbstractType
                 'help_attr' => [
                     'class' => 'text-secondary fw-light ',
                 ],
+                ])
+                ->add('actorFile', VichFileType::class, [
+                    'label' => 'Image de l\'acteur',
+                    'attr' => [
+                        'class' => 'tinymce  form-control my-2',
+                        'placeholder' => 'Chargez la photo ici...',
+                    ],
+                    'required' => false,
+                    'allow_delete' => true, // not mandatory, default is true
+                    'download_uri' => true, // not mandatory, default is true
+                    'help' => 'Chargez une image inférieure à 1Mo et type jpeg, png, webp',
+                    'help_attr' => [
+                        'class' => 'text-secondary fw-light ',
+                    ],
                 ])
             ->add('programs', EntityType::class,[
                 'class' => Program::class,

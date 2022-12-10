@@ -11,7 +11,7 @@
 				<div class="card my-3">
 					<div class="row g-0">
 						<div class="col-md-4">
-							<img src="{{ asset('build/images/actor' ~ random(1,10) ~ '.png') }}" class="card-img-top" alt="Une photo de {{ actor.name }}">
+							<img src="{{ vich_uploader_asset(actor) }}" class="card-img-top" alt="Une photo de {{ actor.name }}">
 						</div>
 						<div class="col-md-8">
 							<div class="card-body h-100">

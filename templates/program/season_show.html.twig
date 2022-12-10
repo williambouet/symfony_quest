@@ -10,7 +10,7 @@
 			 {% for episode in episodes %}
 				<div class="col-6">
 					<div class="card my-3 h-100">
-						<img src="{{ asset('build/images/' ~ episode.season.program.poster) }}" class="card-img-top" alt="Une image du programme {{ episode.season.program.poster }}">
+						<img src="{{ vich_uploader_asset(program) }}" class="card-img-top" alt="Une image du programme {{ episode.season.program.poster }}">
 						<div class="card-body">
 							<div class="h-100 d-flex flex-column justify-content-between">
                                         <p class="text-secondary text-center fs-3">{{ episode.season.program.title }}</p>
