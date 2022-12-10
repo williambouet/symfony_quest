@@ -11,7 +11,7 @@
 			{% for program in programs %}
 				<div class="col-4">
 					<div class="card my-3 h-100">
-						<img src="{{ asset('build/images/' ~ program.poster) }}" class="card-img-top" alt="Une image du programme {{ program.poster }}">
+						<img src="{{ vich_uploader_asset(program) }}" class="card-img-top" alt="Une image du programme {{ program.poster }}">
 						<div class="card-body">
 							<div class="h-100 d-flex flex-column justify-content-between">
 								<div class="d-flex justify-content-between">

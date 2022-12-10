@@ -8,6 +8,12 @@
 	{{ form_widget(form.name) }}
 	{{ form_help(form.name) }}
 
+	<div class="errors d-flex">
+		{{ form_label(form.actorFile) }}
+		{{ form_errors(form.actorFile) }}
+	</div>
+	{{ form_widget(form.actorFile) }}
+	{{ form_help(form.actorFile) }}
 
 	<div class="errors d-flex">
 		{{ form_label(form.programs) }}
