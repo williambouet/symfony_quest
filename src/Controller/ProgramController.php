@@ -132,6 +132,7 @@ class ProgramController extends AbstractController
     public function showSeason(
         string $slug,
         int $seasonId,
+        Program $program,
         EpisodeRepository $episodeRepository,
         CategoryRepository $categoryRepository,
         ProgramRepository $programRepository,
@@ -144,6 +145,7 @@ class ProgramController extends AbstractController
             throw $this->createNotFoundException('Aucune season trouvée');
 
         return $this->render('program/season_show.html.twig', [
+            'program' => $program,
             'programs' => $programs,
             'episodes' => $episodes,
             'categories' => $categoryRepository->findAll(),
