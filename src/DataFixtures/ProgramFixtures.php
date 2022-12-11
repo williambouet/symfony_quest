@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
-use App\Entity\Season;
 use App\Entity\Program;
 use App\DataFixtures\ActorFixtures;
 use App\DataFixtures\CategoryFixtures;
