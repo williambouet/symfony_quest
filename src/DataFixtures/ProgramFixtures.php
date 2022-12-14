@@ -16,14 +16,14 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
     public const NUMBER_OF_PROGRAM = 6;
     public const NUMBER_OF_ACTOR_IN_PROGRAM = 3;
     private SluggerInterface $slugger;
-    
+
     public function __construct(SluggerInterface $slugger)
     {
         $this->slugger = $slugger;
     }
-    
-    
-    
+
+
+
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
@@ -39,9 +39,10 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
                 $program->setPoster($categoryName . '.jpg');
                 $program->setSynopsis($faker->sentence(20, true));
                 $program->setCategory($this->getReference('category_' . $categoryName));
+                if ($faker->numberBetween(0, 3) === 1) $program->setOwner($this->getReference('contributor'));
                 $this->addReference('program_' . $i . '_' . $categoryName, $program);
-                for ($j=0; $j < $numberOfActor; $j++) { 
-                    $program->addActor($this->getReference('actor_' . $faker->numberBetween(1, 10)));    
+                for ($j = 0; $j < $numberOfActor; $j++) {
+                    $program->addActor($this->getReference('actor_' . $faker->numberBetween(1, 10)));
                 }
 
                 $manager->persist($program);

@@ -12,40 +12,63 @@
 		<div class="row justify-content-center">
 
 			<div class="col-4 p-0">
-				<div class="card vh-100  ">
+				<div class="card">
 					<img src="{{ asset('build/images/' ~ category.name ~ '.jpg') }}" class="card-img-top" alt="Une image de la catégorie {{ category.name }}">
 					<div class="card-body">
-						<div class="h-100 d-flex flex-column justify-content-between">
+						<div class="d-flex flex-column justify-content-between">
 							<div>
-								<p class="card-title text-secondary">Catégorie :
-									{{ category.name  }}</p>
+								<div class="d-flex justify-content-between">
+									<p class="card-title text-secondary">Catégorie :
+										{{ category.name  }}</p>
+									<p class="card-title text-secondary">Durée :
+										{{ episode.duration  }}
+										min</p>
+								</div>
+
+								<div class="d-flex">
+									<p class="text-secondary text-align-start mb-2">Acteurs :
+										{% for actor in episode.season.program.actors %}
+											<a href="{{ path("actor_id", { id: actor.id }) }}" class="text-secondary text-decoration-none">{{ actor.name }},
+											</a>
+										{% else %}
+											Aucun acteur pour cette série
+										{% endfor %}
+									</p>
+								</div>
 								<h2>{{ episode.title }}</h2>
 								<p>{{ episode.synopsis }}</p>
 							</div>
+
+							<a href="{{ path('App_index') }}" class="btn btn-outline-secondary">Retour à l'accueil</a>
+
 							<div class="d-flex justify-content-center">
 								{% if app.user %}
 									{% include "comment/_comment.html.twig" %}
 								{% endif %}
 							</div>
-							<a href="{{ path('App_index') }}" class="btn btn-outline-secondary">Retour à l'accueil</a>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<div class="col-4 p-0">
-				<div class=" card vh-100 overflow-scroll p-0">
-					<p class="  ">
+			{% if is_granted("ROLE_USER") %}
+				<div class="col-4 p-0">
+					<div class=" card vh-100 overflow-scroll p-0">
 
 						{% for comment in comments %}
 
-							<div class="d-flex flex-column justify-content-between px-2">
-								<p class="card-title  text-secondary fw-lighter fs-6 m-0 align-self-end">
-									{{ comment.creationDate|date("m/d/Y H:m") }}</p>
-								<div class="d-flex justify-content-between ">
+							<div class="d-flex flex-column justify-content-between px-2 mt-2">
+								<div class="d-flex justify-content-between align-items-center">
+									<p class="card-title  text-secondary fw-lighter fs-6 m-0 align-self-end">
+										{{ comment.creationDate|date("m/d/Y H:m") }}</p>
+									{% if is_granted("ROLE_ADMIN") %}
+										{% include "comment/_delete_form.html.twig" %}
+									{% endif %}
+								</div>
+
+								<div class="d-flex justify-content-between align-items-center">
 									<p class="card-title  text-secondary m-0">
 										{{ comment.author.email  }}</p>
-									<p class="card-title  text-secondary m-0">
+									<p class="card-title  text-secondary m-0 fs-3">
 										{% for number, smiley in constant('App\\Controller\\EpisodeController::RATES') %}
 											{% if comment.rate is same as number %}
 												{{ smiley }}
@@ -58,12 +81,10 @@
 									Avis :
 									{{ comment.comment }}</p>
 							</div>
-
 						{% endfor %}
-					</p>
+					</div>
 				</div>
-			</div>
-
+			{% endif %}
 
 		</div>
 	</div>

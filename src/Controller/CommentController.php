@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Episode;
 use App\Form\Comment2Type;
 use App\Repository\CommentRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\EpisodeRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/comment')]
 class CommentController extends AbstractController
@@ -66,13 +69,25 @@ class CommentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_comment_delete', methods: ['POST'])]
-    public function delete(Request $request, Comment $comment, CommentRepository $commentRepository): Response
+    #[Route('/{id}/{slug}', name: 'app_comment_delete', methods: ['POST'])]
+    public function delete(
+        Request $request, 
+        Episode $episode,
+        CategoryRepository $categoryRepository,
+        Comment $comment, 
+        CommentRepository $commentRepository
+        ): Response
     {
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
             $commentRepository->remove($comment, true);
+            
+            $this->addFlash('success', 'Avis supprimé.');
         }
 
-        return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('episode_show', [
+            'slug' => $episode->getSlug(),
+            'categories' => $categoryRepository->findAll(),
+
+        ], Response::HTTP_SEE_OTHER);
     }
 }

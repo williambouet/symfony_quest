@@ -56,8 +56,8 @@ class ProgramType extends AbstractType
                     'placeholder' => 'Chargez le poster ici...',
                 ],
                 'required' => false,
-                'allow_delete' => true, // not mandatory, default is true
-                'download_uri' => true, // not mandatory, default is true
+                'allow_delete' => false, // not mandatory, default is true
+                'download_uri' => false, // not mandatory, default is true
                 'help' => 'Chargez un poster inférieure à 1Mo et type jpeg, png, webp',
                 'help_attr' => [
                     'class' => 'text-secondary fw-light ',

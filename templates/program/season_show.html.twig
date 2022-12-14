@@ -21,7 +21,7 @@
 																	<div class="d-flex">
 								<p class="text-secondary text-align-start mb-2">Acteurs :
 									{% for actor in episode.season.program.actors %}
-										{{ actor.name }},
+									<a href="{{ path("actor_id", { id: actor.id }) }}" class="text-secondary text-decoration-none">{{ actor.name }}, </a>
 										{% else %}
 											Aucun acteur pour cette série
 											{% endfor %}
