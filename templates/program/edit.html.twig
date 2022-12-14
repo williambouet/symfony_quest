@@ -4,13 +4,20 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Edit Program</h1>
-	{{ include('program/_inner_form.html.twig')}}
-    {{ include('_bs_form/_form.html.twig', {'button_label': 'Editer'}) }}
-    
-    <a class="btn btn-outline-secondary my-3 form-btn" href="{{ path('program_app_program_index') }}">Retour</a>
-        {{ include('program/_delete_form.html.twig') }}
-    </div>
+<h1>Edit Program</h1>
+{{ include('program/_inner_form.html.twig')}}
+{{ include('_bs_form/_form.html.twig', {'button_label': 'Editer'}) }}
 
+{% if is_granted("ROLE_ADMIN") %}
+	<a class="btn btn-outline-secondary my-3 form-btn" href="{{ path('program_app_program_index') }}">Retour</a>
+	{{ include('program/_delete_form.html.twig') }}
+{% else %}
+
+	<a class="btn btn-outline-secondary my-3 form-btn" href="{{ path('program_show', {'slug': program.slug}) }}">Retour</a>
+
+
+{% endif %}
+    </div>
+    
     {{ include('_bs_form/_bs_bottom_form.html.twig')}}
 {% endblock %}

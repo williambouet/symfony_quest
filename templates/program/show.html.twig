@@ -16,53 +16,57 @@
 							<div class="d-flex justify-content-between">
 								<p class="text-secondary m-0">Catégorie :
 									{{ program.category.name }}</p>
-									<p class="text-secondary m-0">Durée :
+								<p class="text-secondary m-0">Durée :
 									{{ duration }}</p>
-										<p class="text-secondary m-0">Saison :
-											{% for season in program.seasons %}
-												<a href="{{ path("program_season_show", { seasonId: season.id, slug: program.slug }) }}" class="text-secondary text-decoration-none">
-													{{season.number}}
-												</a>
-											{% endfor %}
-										</p>
-									</div>
-									<div class="d-flex">
-								<p class="text-secondary text-align-start mb-4">Acteurs :
-									{% for actor in program.actors %}
-									<a href="{{ path("actor_id", { id: actor.id }) }}" class="text-secondary text-decoration-none">{{ actor.name }}, </a>
-										{% else %}
-											Aucun acteur pour cette série
-											{% endfor %}
-										</p>
-									</div>
-									<h2 class="card-title">{{ program.title }}</h2>
-									<div class="text-start ">
-										{% for season in program.seasons %}
-
-											<div class="d-flex justify-content-between">
-												<a href="{{ path("program_season_show", { seasonId: season.id, slug: program.slug }) }}" class="text-dark">
-													<p class="fs-5 m-0">Description de la saison :
-														{{season.number}}
-													</p>
-												</a>
-												<a href="{{ path("program_season_show", { seasonId: season.id, slug: program.slug }) }}" class="btn btn-outline-dark btn-sm">Détail des épisodes</a>
-											</div>
-											<p class="border-bottom my-3 pb-3 fw-light lh-lg">{{ season.description }}</p>
-										{% endfor %}
-									</div>
-
-									<a href="{{ path("category_show", { categoryName: program.category.name }) }}" class="btn btn-outline-secondary">Retour</a>
+								<p class="text-secondary m-0">Saison :
+									{% for season in program.seasons %}
+										<a href="{{ path("program_season_show", { seasonId: season.id, slug: program.slug }) }}" class="text-secondary text-decoration-none">
+											{{season.number}}
+										</a>
+									{% endfor %}
 								</p>
 							</div>
-						</div>
+							<div class="d-flex">
+								<p class="text-secondary text-align-start mb-4">Acteurs :
+									{% for actor in program.actors %}
+										<a href="{{ path("actor_id", { id: actor.id }) }}" class="text-secondary text-decoration-none">{{ actor.name }},
+										</a>
+									{% else %}
+										Aucun acteur pour cette série
+									{% endfor %}
+								</p>
+							</div>
+							<h2 class="card-title">{{ program.title }}</h2>
+							<div class="text-start ">
+								{% for season in program.seasons %}
 
+									<div class="d-flex justify-content-between">
+										<a href="{{ path("program_season_show", { seasonId: season.id, slug: program.slug }) }}" class="text-dark">
+											<p class="fs-5 m-0">Description de la saison :
+												{{season.number}}
+											</p>
+										</a>
+										<a href="{{ path("program_season_show", { seasonId: season.id, slug: program.slug }) }}" class="btn btn-outline-dark btn-sm">Détail des épisodes</a>
+									</div>
+									<p class="border-bottom my-3 pb-3 fw-light lh-lg">{{ season.description }}</p>
+								{% endfor %}
+							</div>
 
-					{% else %}
-						Aucune catégorie trouvée.
-					{% endif %}
-
+							<div class="d-flex justify-content-between">
+								{% if program.owner %}
+									<a class="btn btn-outline-dark" href="{{ path('program_app_program_edit', { 'slug': program.slug} ) }}">Éditer</a>
+								{% endif %}
+								<a href="{{ path("category_show", { categoryName: program.category.name }) }}" class="btn btn-outline-secondary">Retour</a>
+							</div>
+						</p>
+					</div>
 				</div>
-			</div>
-		</div>
 
-	{% endblock %}
+
+			{% else %}
+				Aucune catégorie trouvée.
+			{% endif %}
+
+		</div>
+	</div>
+</div>{% endblock %}

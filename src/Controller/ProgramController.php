@@ -16,7 +16,9 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -51,7 +53,7 @@ class ProgramController extends AbstractController
     }
 
 
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_program_new')]
     public function new(Request $request, MailerInterface $mailer, ProgramRepository $programRepository, CategoryRepository $categoryRepository): Response
     {
@@ -62,6 +64,7 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $this->slugger->slug($program->getTitle());
             $program->setSlug($slug);   
+            $program->setOwner($this->getUser());
             $programRepository->save($program, true);
             $this->addFlash('success', 'Le programme est ajouté.');
 
@@ -152,7 +155,7 @@ class ProgramController extends AbstractController
         ]);
     }
 
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/delete/{id}', name: 'app_program_delete', methods: ['POST'])]
     public function delete(Request $request, Program $program, ProgramRepository $programRepository): Response
     {
@@ -167,6 +170,11 @@ class ProgramController extends AbstractController
     #[Route('/edit/{slug}', name: 'app_program_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, ProgramRepository $programRepository, CategoryRepository $categoryRepository,): Response
     {
+        if ($this->getUser() !== $program->getOwner()) {
+    
+            throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à modifier ce programme !');
+        }
+
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 
