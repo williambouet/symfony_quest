@@ -69,24 +69,31 @@ class CommentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/{slug}', name: 'app_comment_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_comment_delete', methods: ['POST'])]
     public function delete(
         Request $request, 
-        Episode $episode,
+        EpisodeRepository $episodeRepository,
         CategoryRepository $categoryRepository,
         Comment $comment, 
         CommentRepository $commentRepository
         ): Response
     {
+        
+        $episode = $episodeRepository->findOneBy(['id' => $comment->getEpisodeId()]);
+        
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
             $commentRepository->remove($comment, true);
             
             $this->addFlash('success', 'Avis supprimé.');
         }
 
+
+        
         return $this->redirectToRoute('episode_show', [
             'slug' => $episode->getSlug(),
             'categories' => $categoryRepository->findAll(),
+            'comments' => $commentRepository->findBy(['episode_id' => $episode->getId()], ['creationDate' => 'DESC']),
+            
 
         ], Response::HTTP_SEE_OTHER);
     }
