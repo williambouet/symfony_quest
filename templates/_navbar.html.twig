@@ -17,12 +17,12 @@
 						<li>
 							<a class="dropdown-item fw-bold" href="{{ path('category_index')}}">Voir toutes les catégories</a>
 
-								{% if is_granted("ROLE_ADMIN") %}
-									<a class="dropdown-item fw-light" href="{{ path("category_app_category_index") }}">Administrer les catégories</a>
-									<a class="dropdown-item fw-light" href="{{ path("program_app_program_index") }}">Administrer les programmes</a>
-									<a class="dropdown-item fw-light" href="{{ path("app_season_index") }}">Administrer les saisons</a>
-									<a class="dropdown-item fw-light" href="{{ path("app_episode_index") }}">Administrer les épisodes</a>
-								{% endif %}
+							{% if is_granted("ROLE_ADMIN") %}
+								<a class="dropdown-item fw-light" href="{{ path("category_app_category_index") }}">Administrer les catégories</a>
+								<a class="dropdown-item fw-light" href="{{ path("program_app_program_index") }}">Administrer les programmes</a>
+								<a class="dropdown-item fw-light" href="{{ path("app_season_index") }}">Administrer les saisons</a>
+								<a class="dropdown-item fw-light" href="{{ path("app_episode_index") }}">Administrer les épisodes</a>
+							{% endif %}
 						</li>
 						<li><hr class="dropdown-divider"></li>
 
@@ -43,12 +43,12 @@
 						<li>
 							<a class="dropdown-item" href="{{ path("actor_index") }}">Tous les acteurs</a>
 						</li>
-								{% if is_granted("ROLE_ADMIN")  %}
-								<li><hr class="dropdown-divider"></li>
-								<li>
-									<a class="dropdown-item fw-light" href="{{ path("actor_app_actor_index") }}">Administrer les acteurs</a>
-								</li>
-							{% endif %}
+						{% if is_granted("ROLE_ADMIN")  %}
+							<li><hr class="dropdown-divider"></li>
+							<li>
+								<a class="dropdown-item fw-light" href="{{ path("actor_app_actor_index") }}">Administrer les acteurs</a>
+							</li>
+						{% endif %}
 					</ul>
 				</li>
 
@@ -60,7 +60,7 @@
 
 					{% if app.user %}
 						<a class="nav-link text-light px-3" href="{{ path('app_logout') }}">
-							Se déconnecter</a>
+							Se déconnecter </a>
 					{% else %}
 						<a class="nav-link text-light px-3" href="{{ path('app_login') }}">
 							Se connecter</a>

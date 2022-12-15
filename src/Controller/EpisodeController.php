@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/episode')]
 class EpisodeController extends AbstractController
@@ -51,7 +52,7 @@ class EpisodeController extends AbstractController
 
 
 
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_episode_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EpisodeRepository $episodeRepository, MailerInterface $mailer, CategoryRepository $categoryRepository): Response
     {
@@ -95,7 +96,7 @@ class EpisodeController extends AbstractController
     }
 
 
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{slug}/edit', name: 'app_episode_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Episode $episode, EpisodeRepository $episodeRepository, CategoryRepository $categoryRepository): Response
     {
@@ -156,7 +157,7 @@ class EpisodeController extends AbstractController
     }
 
 
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'app_episode_delete', methods: ['POST'])]
     public function delete(Request $request, Episode $episode, EpisodeRepository $episodeRepository): Response
     {

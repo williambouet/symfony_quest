@@ -130,7 +130,6 @@ class ProgramController extends AbstractController
 
 
 
-
     #[Route('/program/{slug}/seasons/{seasonId}', requirements: ['seasonId' => '^[0-9]+$','slug' => '^[a-zA-Z0-9\-]+$',], methods: ['GET'], name: 'season_show')]
     public function showSeason(
         string $slug,
@@ -169,18 +168,19 @@ class ProgramController extends AbstractController
 
     #[Route('/edit/{slug}', name: 'app_program_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, ProgramRepository $programRepository, CategoryRepository $categoryRepository,): Response
-    {
-        if ($this->getUser() !== $program->getOwner()) {
-    
+    {      
+        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser() !== $program->getOwner()) {
+
             throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à modifier ce programme !');
+
         }
-
-        $form = $this->createForm(ProgramType::class, $program);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $slug = $this->slugger->slug($program->getTitle());
-            $program->setSlug($slug); 
+            
+            $form = $this->createForm(ProgramType::class, $program);
+            $form->handleRequest($request);
+            
+            if ($form->isSubmitted() && $form->isValid()) {
+                $slug = $this->slugger->slug($program->getTitle());
+                $program->setSlug($slug); 
             $programRepository->save($program, true);
             $this->addFlash('success', 'Le programme est modifié.');
 

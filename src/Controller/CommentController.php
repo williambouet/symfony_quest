@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/comment')]
 class CommentController extends AbstractController
@@ -51,6 +52,7 @@ class CommentController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'app_comment_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Comment $comment, CommentRepository $commentRepository): Response
     {
@@ -69,6 +71,8 @@ class CommentController extends AbstractController
         ]);
     }
 
+
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'app_comment_delete', methods: ['POST'])]
     public function delete(
         Request $request, 
