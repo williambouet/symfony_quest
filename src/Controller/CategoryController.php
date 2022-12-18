@@ -9,9 +9,10 @@ use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/category', name: 'category_')]
 class CategoryController extends AbstractController
@@ -27,10 +28,26 @@ class CategoryController extends AbstractController
 
 
     #[Route('/', name: 'index')]
-    public function index(CategoryRepository $categoryRepository): Response
+    public function index(Request $request, CategoryRepository $categoryRepository, ProgramRepository $programRepository): Response
     {
+        $formSearch = $this->createForm(SearchType::class);
+        $formSearch->handleRequest($request);
 
-        return $this->render('category/index.html.twig', ['categories' => $categoryRepository->findAll()]);
+        if ($formSearch->isSubmitted() && $formSearch->isValid()) {
+            $search = $formSearch->getData();
+            $programs = $programRepository->findLikeName($search);
+
+            return $this->render('program/index.html.twig', [
+                'programs' => $programs,
+                'categories' => $categoryRepository->findAll(),
+            ]);
+            
+        }
+    
+    return $this->renderForm('category/index.html.twig', [
+        'categories' => $categoryRepository->findAll(),
+        'formSearch' => $formSearch,
+        ]);
     }
 
 
