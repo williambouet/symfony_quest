@@ -19,36 +19,36 @@ class SeasonType extends AbstractType
                 'label' => 'Numéro',
                 'required' => true,
                 'attr' => [
-                    'class' => 'tinymce form-control my-2',
+                    'class' => 'form-control my-2',
                     'placeholder' => 'Indiquez le numéro de la saison',
                 ],
                 'help' => 'Ex : 10',
                 'help_attr' => [
                     'class' => 'text-secondary fw-light ',
-                
+
                 ],
-                ])
+            ])
             ->add('year', NumberType::class, [
                 'label' => 'Année',
                 'required' => true,
                 'attr' => [
-                    'class' => 'tinymce form-control my-2',
+                    'class' => 'form-control my-2',
                     'placeholder' => 'Indiquez l\'année de diffusion',
                 ],
                 'help' => 'Ex : 2010',
                 'help_attr' => [
                     'class' => 'text-secondary fw-light ',
                 ],
-                ])
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required' => true,
-                'attr' => ['class' => 'tinymce form-control my-2', "rows" => "3"]
-                ])
+                'attr' => ['class' => 'form-control my-2', "rows" => "3"]
+            ])
             ->add('program', null, [
                 'choice_label' => 'title',
                 'attr' => [
-                    'class' => 'tinymce form-control my-2',
+                    'class' => 'form-control my-2',
                     "rows" => "3",
                     'placeholder' => 'Tapez la description ici...',
                 ],
@@ -56,8 +56,7 @@ class SeasonType extends AbstractType
                 'help_attr' => [
                     'class' => 'text-secondary fw-light ',
                 ],
-                ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

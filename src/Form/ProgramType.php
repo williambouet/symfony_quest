@@ -28,7 +28,7 @@ class ProgramType extends AbstractType
                     'label' => 'Titre',
                     'required' => true,
                     'attr' => [
-                        'class' => 'tinymce form-control my-2',
+                        'class' => 'form-control my-2',
                         'placeholder' => 'Tapez le titre ici...',
                     ],
                     'help' => 'Ex : Le bureau des légendes, Le jeu de la dame, ...',
@@ -41,7 +41,7 @@ class ProgramType extends AbstractType
                 'label' => 'Synopsis',
                 'required' => true,
                 'attr' => [
-                    'class' => 'tinymce  form-control my-2',
+                    'class' => ' form-control my-2',
                     'placeholder' => 'Tapez le synopsis ici...',
                 ],
                 'help' => 'Ex : Au sein de la DGSE, un département appelé le Bureau des légendes ...',
@@ -52,7 +52,7 @@ class ProgramType extends AbstractType
             ->add('posterFile', VichFileType::class, [
                 'label' => 'Poster du programme',
                 'attr' => [
-                    'class' => 'tinymce  form-control my-2',
+                    'class' => ' form-control my-2',
                     'placeholder' => 'Chargez le poster ici...',
                 ],
                 'required' => false,

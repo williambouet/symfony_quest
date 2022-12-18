@@ -1,0 +1,9 @@
+<h1>Salut, membre de la communauté ! </h1>
+
+<p>Pour changer de mot de passe de connexion, merci de cliquer sur le lien ci-dessous :</p>
+
+<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+
+<p>Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+
+<p>La communauté Wild Series !</p>
