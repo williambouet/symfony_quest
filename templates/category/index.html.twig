@@ -10,6 +10,14 @@
 		<div class="row justify-content-center">
 			<div class="col-6">
 				<h1>Toutes les catégories</h1>
+
+						<div class="d-flex">
+			{{ form_start(formSearch) }}
+			{{ form_label(formSearch) }}
+			{{ form_widget(formSearch) }}
+			<button class="btn btn-light btn-sm">Rechercher</button>
+			{{ form_end(formSearch) }}
+		</div>
 				{% for category in categories %}
 					<div class="card my-3">
 						<img src="{{ asset('build/images/' ~ category.name ~ '.jpg') }}" class="card-img-top" alt="Une image de la catégorie {{ category.name }}">
