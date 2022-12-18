@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/actor', name: 'actor_')]
 class ActorController extends AbstractController
@@ -42,6 +43,7 @@ class ActorController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/delete/{id}', name: 'app_actor_delete', methods: ['POST'])]
     public function delete(Request $request, Actor $actor, ActorRepository $actorRepository): Response
     {
@@ -52,6 +54,7 @@ class ActorController extends AbstractController
         return $this->redirectToRoute('actor_app_actor_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_actor_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ActorRepository $actorRepository, CategoryRepository $categoryRepository): Response
     {
@@ -81,6 +84,7 @@ class ActorController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'app_actor_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Actor $actor, ActorRepository $actorRepository, CategoryRepository $categoryRepository): Response
     {

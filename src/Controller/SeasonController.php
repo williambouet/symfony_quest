@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/season')]
 class SeasonController extends AbstractController
@@ -25,7 +26,7 @@ class SeasonController extends AbstractController
     }
 
 
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_season_new', methods: ['GET', 'POST'])]
     public function new(Request $request, SeasonRepository $seasonRepository, CategoryRepository $categoryRepository): Response
     {
@@ -61,7 +62,7 @@ class SeasonController extends AbstractController
     }
 
 
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'app_season_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Season $season, SeasonRepository $seasonRepository, CategoryRepository $categoryRepository): Response
     {
@@ -84,7 +85,7 @@ class SeasonController extends AbstractController
 
 
 
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'app_season_delete', methods: ['POST'])]
     public function delete(Request $request, Season $season, SeasonRepository $seasonRepository, CategoryRepository $categoryRepository): Response
     {

@@ -19,7 +19,7 @@ class CommentType extends AbstractType
                 'label' => 'Commentaire',
                 'required' => true,
                 'attr' => [
-                    'class' => 'tinymce form-control my-2',
+                    'class' => 'form-control my-2',
                     "rows" => "3",
                     'placeholder' => 'Tapez votre commentaire ici...',
                 ],
@@ -33,10 +33,9 @@ class CommentType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'max' => 5,
-                    'class' => 'tinymce w-100 my-2',
+                    'class' => 'w-100 my-2',
                 ],
-            ])
-         ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

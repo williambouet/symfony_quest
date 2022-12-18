@@ -60,7 +60,6 @@
 								<div class="d-flex justify-content-between align-items-center">
 									<p class="card-title  text-secondary fw-lighter fs-6 m-0 align-self-end">
 										{{ comment.creationDate|date("m/d/Y H:m") }}</p>
-										<p>{{comment.id}}</p>
 									{% if is_granted("ROLE_ADMIN") %}
 										<form method="post" action="{{ path('app_comment_delete', {'id': comment.id}) }}" onsubmit="return confirm('Souhaitez vous supprimer cet avis ?');">
 											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
@@ -83,10 +82,10 @@
 
 								<p class="border-bottom pb-2 lh-lg">
 									Avis :
-									{{ comment.comment }}</p>
+									{{ comment.comment|nl2br }}</p>
 							</div>
 						{% endfor %}
-	
+
 					</div>
 				</div>
 			{% endif %}

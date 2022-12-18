@@ -20,29 +20,29 @@ class ActorType extends AbstractType
                 'label' => 'Nom',
                 'required' => true,
                 'attr' => [
-                    'class' => 'tinymce form-control my-2',
+                    'class' => 'form-control my-2',
                     'placeholder' => 'Tapez le nom ici...',
                 ],
                 'help' => 'Ex : Sylvain Téhin, Cécile Encieux ...',
                 'help_attr' => [
                     'class' => 'text-secondary fw-light ',
                 ],
-                ])
-                ->add('actorFile', VichFileType::class, [
-                    'label' => 'Image de l\'acteur',
-                    'attr' => [
-                        'class' => 'tinymce  form-control my-2',
-                        'placeholder' => 'Chargez la photo ici...',
-                    ],
-                    'required' => false,
-                    'allow_delete' => true, // not mandatory, default is true
-                    'download_uri' => true, // not mandatory, default is true
-                    'help' => 'Chargez une image inférieure à 1Mo et type jpeg, png, webp',
-                    'help_attr' => [
-                        'class' => 'text-secondary fw-light ',
-                    ],
-                ])
-            ->add('programs', EntityType::class,[
+            ])
+            ->add('actorFile', VichFileType::class, [
+                'label' => 'Image de l\'acteur',
+                'attr' => [
+                    'class' => ' form-control my-2',
+                    'placeholder' => 'Chargez la photo ici...',
+                ],
+                'required' => false,
+                'allow_delete' => true, // not mandatory, default is true
+                'download_uri' => true, // not mandatory, default is true
+                'help' => 'Chargez une image inférieure à 1Mo et type jpeg, png, webp',
+                'help_attr' => [
+                    'class' => 'text-secondary fw-light ',
+                ],
+            ])
+            ->add('programs', EntityType::class, [
                 'class' => Program::class,
                 'choice_label' => 'title',
                 'multiple' => true,
@@ -53,10 +53,8 @@ class ActorType extends AbstractType
                     'class' => 'text-secondary fw-light ',
                 ],
                 'by_reference' => false,
-                
-                ])
-        
-            ;
+
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
