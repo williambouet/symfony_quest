@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% block body %}
-{# ok #}
 	<div class="contenair">
 		<div class="row ">
 			<h1 class="text-light">Tous les programmes de la catégorie :
@@ -18,8 +17,15 @@
 
 							<div class="h-100 d-flex flex-column justify-content-between">
 								<div>
-									<p class="card-title text-secondary">Catégorie :
-										{{ program.category.name }}</p>
+									<div class="d-flex justify-content-between">
+										<p class="card-title text-secondary">Catégorie :
+											{{ program.category.name }}</p>
+										<a class="text-decoration-none text-dark" href="{{ path('program_add_watchlist', {id: program.id})}}">
+											{% if app.user %}
+												<i class="bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+											{% endif %}
+										</a>
+									</div>
 									<h2>{{ program.title }}</h2>
 									<p>{{ program.synopsis }}</p>
 								</div>
@@ -34,7 +40,7 @@
 				</div>
 
 			{% else %}
-				Aucune catégorie trouvée.
+				Aucun programme trouvé.
 			{% endfor %}
 
 		</div>
