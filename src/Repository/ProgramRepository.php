@@ -47,10 +47,10 @@ class ProgramRepository extends ServiceEntityRepository
             ->orWhere('a.name LIKE :name')
             ->setParameter('name', '%' . $value . '%')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+    }
 
-        /*
+    /*
         $em = $this->getEntityManager();
         $query = $em->createQuery(
             'SELECT p, a 
@@ -75,7 +75,7 @@ class ProgramRepository extends ServiceEntityRepository
             ->getResult()
         ;
 */
-    }
+
 
     //    /**
     //     * @return Program[] Returns an array of Program objects

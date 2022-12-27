@@ -7,7 +7,7 @@ use App\Entity\Program;
 use App\Form\ProgramType;
 use App\Service\ProgramDuration;
 use Symfony\Component\Mime\Email;
-use App\Repository\SeasonRepository;
+use App\Repository\UserRepository;
 use App\Repository\EpisodeRepository;
 use App\Repository\ProgramRepository;
 use App\Repository\CategoryRepository;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -63,7 +63,7 @@ class ProgramController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $this->slugger->slug($program->getTitle());
-            $program->setSlug($slug);   
+            $program->setSlug($slug);
             $program->setOwner($this->getUser());
             $programRepository->save($program, true);
             $this->addFlash('success', 'Le programme est ajouté.');
@@ -87,7 +87,35 @@ class ProgramController extends AbstractController
         ]);
     }
 
+    #[Route('/program/{id}/watchlist', methods: ['GET'], name: 'add_watchlist')]
+    public function addToWatchlist(int $id, ProgramRepository $programRepository, UserRepository $userRepository): Response
+    {
 
+
+        $program = $programRepository->findOneBy(['id' => $id]);
+
+        if (!$program) {
+            throw $this->createNotFoundException(
+                'Aucun programme trouvé.'
+            );
+        }
+
+        /** @var \App\Entity\User */
+        $user = $this->getUser();
+        if ($user) {
+            if ($user->isInWatchlist($program)) {
+                $user->removeFromWatchlist($program);
+            } else {
+                $user->addToWatchlist($program);
+            }
+
+            $userRepository->save($user, true);
+        } else {
+            $this->addFlash('danger', 'Veuillez vous connecter.');
+        }
+
+        return $this->redirectToRoute('category_show', ['categoryName' => $program->getCategory()->getName()], Response::HTTP_SEE_OTHER);
+    }
 
 
     #[Route('/list/{categoryId}', requirements: ['categoryId' => '^[0-9]+$'], methods: ['GET'], name: 'list')]
@@ -130,7 +158,7 @@ class ProgramController extends AbstractController
 
 
 
-    #[Route('/program/{slug}/seasons/{seasonId}', requirements: ['seasonId' => '^[0-9]+$','slug' => '^[a-zA-Z0-9\-]+$',], methods: ['GET'], name: 'season_show')]
+    #[Route('/program/{slug}/seasons/{seasonId}', requirements: ['seasonId' => '^[0-9]+$', 'slug' => '^[a-zA-Z0-9\-]+$',], methods: ['GET'], name: 'season_show')]
     public function showSeason(
         string $slug,
         int $seasonId,
@@ -158,29 +186,28 @@ class ProgramController extends AbstractController
     #[Route('/delete/{id}', name: 'app_program_delete', methods: ['POST'])]
     public function delete(Request $request, Program $program, ProgramRepository $programRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $program->getId(), $request->request->get('_token'))) {
             $programRepository->remove($program, true);
             $this->addFlash('danger', 'Le programme est supprimé.');
         }
 
-        return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER); 
-   }
+        return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER);
+    }
 
     #[Route('/edit/{slug}', name: 'app_program_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, ProgramRepository $programRepository, CategoryRepository $categoryRepository,): Response
-    {      
+    {
         if (!$this->isGranted('ROLE_ADMIN') && $this->getUser() !== $program->getOwner()) {
 
             throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à modifier ce programme !');
-
         }
-            
-            $form = $this->createForm(ProgramType::class, $program);
-            $form->handleRequest($request);
-            
-            if ($form->isSubmitted() && $form->isValid()) {
-                $slug = $this->slugger->slug($program->getTitle());
-                $program->setSlug($slug); 
+
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $this->slugger->slug($program->getTitle());
+            $program->setSlug($slug);
             $programRepository->save($program, true);
             $this->addFlash('success', 'Le programme est modifié.');
 
@@ -193,8 +220,4 @@ class ProgramController extends AbstractController
             'categories' => $categoryRepository->findAll(),
         ]);
     }
-
-
-
-
 }
