@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,10 +89,8 @@ class ProgramController extends AbstractController
     }
 
     #[Route('/program/{id}/watchlist', methods: ['GET'], name: 'add_watchlist')]
-    public function addToWatchlist(int $id, ProgramRepository $programRepository, UserRepository $userRepository): Response
+    public function addToWatchlist(int $id, ProgramRepository $programRepository, UserRepository $userRepository): JsonResponse
     {
-
-
         $program = $programRepository->findOneBy(['id' => $id]);
 
         if (!$program) {
@@ -114,7 +113,7 @@ class ProgramController extends AbstractController
             $this->addFlash('danger', 'Veuillez vous connecter.');
         }
 
-        return $this->redirectToRoute('category_show', ['categoryName' => $program->getCategory()->getName()], Response::HTTP_SEE_OTHER);
+        return $this->json(['isInWatchlist' => $user->isInWatchlist($program)]);
     }
 
 
