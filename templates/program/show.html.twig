@@ -36,7 +36,14 @@
 									{% endfor %}
 								</p>
 							</div>
-							<h2 class="card-title">{{ program.title }}</h2>
+							<div class="d-flex justify-content-center">
+								<a id="watchlist" class="text-decoration-none text-dark" href="{{ path('program_add_watchlist', {id: program.id})}}">
+									{% if app.user %}
+										<i class="fs-4 me-3 bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+									{% endif %}
+								</a>
+								<h2 class="card-title">{{ program.title }}</h2>
+							</div>
 							<div class="text-start ">
 								{% for season in program.seasons %}
 
