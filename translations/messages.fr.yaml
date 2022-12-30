@@ -1,5 +1,10 @@
-welcome: 'Bienvenue sur Wild Series!'
-account.login: 'Se connecter'
-account.logout: 'Se déconnecter'
-account.register: 'Créer un compte'
-categories_link: Catégories
+welcome: Bienvenue sur Wild Series!
+account.login: Se connecter
+account.logout: Se déconnecter
+account.register: Créer un compte
+categories: Catégories
+see_all_categories: Voir toutes les catégories
+administer.categories: Administrer les catégories
+administer.programs: Administrer les programmes
+administer.seasons: Administrer les saisons
+administer.episodes: Administrer les épisodes

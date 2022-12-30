@@ -22,7 +22,6 @@ class CategoryController extends AbstractController
     public function app_index(CategoryRepository $categoryRepository): Response
     {
         return $this->render('category/app_index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -39,7 +38,7 @@ class CategoryController extends AbstractController
 
             return $this->render('program/index.html.twig', [
                 'programs' => $programs,
-                'categories' => $categoryRepository->findAll(),
+
             ]);
             
         }
@@ -70,7 +69,6 @@ class CategoryController extends AbstractController
 
         return $this->renderForm('category/new.html.twig', [
             'form' => $form,
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
     
@@ -81,7 +79,6 @@ class CategoryController extends AbstractController
     {
         return $this->render('category/app_show.html.twig', [
             'category' => $category,
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -100,7 +97,6 @@ class CategoryController extends AbstractController
         return $this->render('category/show.html.twig', [
             'programs' => $programs, 
             'category' => $category, 
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
     
@@ -123,7 +119,6 @@ class CategoryController extends AbstractController
         return $this->renderForm('category/edit.html.twig', [
             'category' => $category,
             'form' => $form,
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 

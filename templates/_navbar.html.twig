@@ -11,26 +11,22 @@
 
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle text-light px-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						{{ 'categories_link'|trans }}
+						{{ 'categories'|trans }}
 					</a>
 					<ul class="dropdown-menu dropdown-menu-dark">
 						<li>
-							<a class="dropdown-item fw-bold" href="{{ path('category_index')}}">Voir toutes les catégories</a>
+							<a class="dropdown-item fw-bold" href="{{ path('category_index')}}">{{ 'see_all_categories'|trans }}</a>
 
 							{% if is_granted("ROLE_ADMIN") %}
-								<a class="dropdown-item fw-light" href="{{ path("category_app_category_index") }}">Administrer les catégories</a>
-								<a class="dropdown-item fw-light" href="{{ path("program_app_program_index") }}">Administrer les programmes</a>
-								<a class="dropdown-item fw-light" href="{{ path("app_season_index") }}">Administrer les saisons</a>
-								<a class="dropdown-item fw-light" href="{{ path("app_episode_index") }}">Administrer les épisodes</a>
+								<a class="dropdown-item fw-light" href="{{ path("category_app_category_index") }}">{{ 'administer.categories'|trans }}</a>
+								<a class="dropdown-item fw-light" href="{{ path("program_app_program_index") }}">{{ 'administer.programs'|trans }}</a>
+								<a class="dropdown-item fw-light" href="{{ path("app_season_index") }}">{{ 'administer.seasons'|trans }}</a>
+								<a class="dropdown-item fw-light" href="{{ path("app_episode_index") }}">{{ 'administer.episodes'|trans }}</a>
 							{% endif %}
 						</li>
 						<li><hr class="dropdown-divider"></li>
 
-						{% for category in categories %}
-							<li>
-								<a class="dropdown-item" href="{{ path("category_show", { categoryName: category.name }) }}">{{ category.name }}</a>
-							</li>
-						{% endfor %}
+						{{ render(controller('App\\Controller\\DefaultController::navbarTop')) }}
 
 					</ul>
 				</li>

@@ -21,7 +21,6 @@ class ActorController extends AbstractController
     {
         return $this->render('actor/index.html.twig', [
             'actors' => $actorRepository->findAll(),
-            'categories' => $categoryRepository->findAll(),
         ]);   
     }
 
@@ -30,7 +29,6 @@ class ActorController extends AbstractController
     {
         return $this->render('actor/app_index.html.twig', [
             'actors' => $actorRepository->findAll(),
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -39,7 +37,6 @@ class ActorController extends AbstractController
     {
         return $this->render('actor/show.html.twig', [
             'actor' => $actor,
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -70,7 +67,6 @@ class ActorController extends AbstractController
 
         return $this->renderForm('actor/new.html.twig', [
             'actor' => $actor,
-            'categories' => $categoryRepository->findAll(),
             'form' => $form, 
         ]);
     }
@@ -80,7 +76,6 @@ class ActorController extends AbstractController
     {
         return $this->render('actor/app_show.html.twig', [
             'actor' => $actor,
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -99,7 +94,6 @@ class ActorController extends AbstractController
 
         return $this->renderForm('actor/edit.html.twig', [
             'actor' => $actor,
-            'categories' => $categoryRepository->findAll(),
             'form' => $form,
         ]);
     }
