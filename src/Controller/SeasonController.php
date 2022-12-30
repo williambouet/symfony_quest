@@ -21,7 +21,6 @@ class SeasonController extends AbstractController
 
         return $this->render('season/index.html.twig', [
             'seasons' => $seasonRepository->findAll(),
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -44,7 +43,6 @@ class SeasonController extends AbstractController
         return $this->renderForm('season/new.html.twig', [
             'season' => $season,
             'form' => $form,
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -57,7 +55,6 @@ class SeasonController extends AbstractController
 
         return $this->render('season/show.html.twig', [
             'season' => $season,
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -79,7 +76,6 @@ class SeasonController extends AbstractController
         return $this->renderForm('season/edit.html.twig', [
             'season' => $season,
             'form' => $form,
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 

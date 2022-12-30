@@ -3,4 +3,9 @@ account:
     login: Sign In
     logout: Sign Out
     register: Create Account
-categories_link: Categories
+categories: Categories
+see_all_categories: Show all categories
+administer.categories: Administer categories
+administer.programs: Administer programs
+administer.seasons: Administer seasons
+administer.episodes: Administer episodes

@@ -46,7 +46,6 @@ class EpisodeController extends AbstractController
     {
         return $this->render('episode/index.html.twig', [
             'episodes' => $episodeRepository->findAll(),
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -82,7 +81,6 @@ class EpisodeController extends AbstractController
         return $this->renderForm('episode/new.html.twig', [
             'episode' => $episode,
             'form' => $form,
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -91,7 +89,6 @@ class EpisodeController extends AbstractController
     {
         return $this->render('episode/show.html.twig', [
             'episode' => $episode,
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -115,7 +112,6 @@ class EpisodeController extends AbstractController
         return $this->renderForm('episode/edit.html.twig', [
             'episode' => $episode,
             'form' => $form,
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
@@ -152,7 +148,6 @@ class EpisodeController extends AbstractController
             'form' => $form,
             'comments' => $commentRepository->findBy(['episode_id' => $episode->getId()], ['creationDate' => 'DESC']),
             'category' => $episode->getSeason()->getProgram()->getCategory(),
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
