@@ -11,7 +11,7 @@
 
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle text-light px-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Catégories
+						{{ 'categories_link'|trans }}
 					</a>
 					<ul class="dropdown-menu dropdown-menu-dark">
 						<li>
@@ -60,11 +60,25 @@
 
 					{% if app.user %}
 						<a class="nav-link text-light px-3" href="{{ path('app_logout') }}">
-							Se déconnecter </a>
+							{{ 'account.logout'|trans }}</a>
 					{% else %}
 						<a class="nav-link text-light px-3" href="{{ path('app_login') }}">
-							Se connecter</a>
+							{{ 'account.login'|trans }}</a>
 					{% endif %}
+				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle text-light px-3" href="#" id="dropdown-language" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{{ app.request.locale|locale_name(app.request.locale)|u.title }}
+					</a>
+					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdown-language">
+						<li>
+							<a class="dropdown-item" href="{{ path('App_index', {_locale: 'en'}) }}">English</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('App_index', {_locale: 'fr'}) }}">Français</a>
+						</li>
+					</ul>
 				</li>
 
 			</ul>
